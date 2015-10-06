@@ -1,0 +1,87 @@
+{% extends "base_general_transparentbar.html" %}
+{% load light_tags %}
+{% block title %}
+    归梓|商品
+{% endblock %}
+
+{% block styles %}
+    <style>
+        .revo-slider-emphasis-text {
+            font-size: 58px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-family: 'Raleway', sans-serif;
+            padding: 15px 20px;
+            border-top: 2px solid #FFF;
+            border-bottom: 2px solid #FFF;
+        }
+        .revo-slider-desc-text {
+            font-size: 20px;
+            font-family: 'Lato', sans-serif;
+            width: 650px;
+            text-align: center;
+            line-height: 1.5;
+        }
+        .revo-slider-caps-text {
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 3px;
+            font-family: 'Raleway', sans-serif;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="/static/include/rs-plugin/css/settings.css" media="screen" />
+{% endblock %}
+
+{% block slider %}
+    {% render_shop_slider %}
+{% endblock %}
+
+{% block center-content %}
+<section id="content">
+            <div class="content-wrap nopadding">
+                <div id="portfolio" class="portfolio-parallax clearfix">
+                    {% for portfolio in portfolios %}
+                     <article class="portfolio-item pf-media pf-icons">
+                        <div class="portfolio-image" style="background-image: url('{{ portfolio.gallery.first.image.url }}');" data-stellar-background-ratio="0.5"><div class="portfolio-overlay"></div></div>
+                        <div class="portfolio-desc">
+                            <h3><a href="portfolio-single.html">{{ portfolio.name }}</a></h3>
+                            <span><a href="#">Media</a>, <a href="#">Icons</a></span>
+                            <div class="portfolio-divider"><div></div></div>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div><!-- #portfolio end -->
+
+                <!-- Portfolio Script
+                ============================================= -->
+                <script type="text/javascript">
+                    jQuery(window).load(function(){
+                        var $container = $('#portfolio');
+                        $container.isotope({ transitionDuration: '0.65s' });
+                        $('#portfolio-filter a').click(function(){
+                            $('#portfolio-filter li').removeClass('activeFilter');
+                            $(this).parent('li').addClass('activeFilter');
+                            var selector = $(this).attr('data-filter');
+                            $container.isotope({ filter: selector });
+                            return false;
+                        });
+                        $('#portfolio-shuffle').click(function(){
+                            $container.isotope('updateSortData').isotope({
+                                sortBy: 'random'
+                            });
+                        });
+                        $(window).resize(function() {
+                            $container.isotope('layout');
+                        });
+                    });
+                </script><!-- Portfolio Script End -->
+
+            </div>
+
+        </section>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="/static/include/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+    <script type="text/javascript" src="/static/include/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+{% endblock %}

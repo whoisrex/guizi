@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 
-from core.models import SimpleImage, Article, Product, Brand, ProductType, Rate
+from core.models import SimpleImage, Article, Product, Brand, ProductType, Rate, Portfolio
 from guizi import settings
 # Create your views here.
 
@@ -82,6 +82,10 @@ def product_info(request, product_id):
     is_like = product.is_liked_by_user(request.user)
     return render(request, "core/shop_single.html", {"product": product, 'is_like': is_like, 'next': True, 'url': request.get_full_path()})
 
+def portfolio(request):
+    portfolios = Portfolio.objects.all()
+    return render(request, "core/portfolio.html", {"portfolios": portfolios})
+
 @login_required
 def like(request):
     if request.user.is_authenticated():
@@ -95,3 +99,6 @@ def like(request):
 
 def aboutus(request):
     return render(request, "core/about-us.html")
+
+def contact(request):
+    return render(request, "core/contact-us.html")

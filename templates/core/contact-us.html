@@ -1,0 +1,264 @@
+{% extends "base_general_transparentbar.html" %}
+{% load light_tags %}
+{% block title %}
+    归梓|联系我们
+{% endblock %}
+
+{% block slider %}
+    <section id="page-title" class="page-title-parallax page-title-dark"
+             style="padding: 250px 0; background-image: url('/static/images/about-us.jpg'); background-size: cover; background-position: center center;"
+             data-stellar-background-ratio="0.4">
+        <div class="container clearfix">
+            <h1>联系我们</h1>
+            <span>百感交荡者，唯归梓者尤甚</span>
+            <ol class="breadcrumb">
+                <li><a href="#">主页</a></li>
+                <li class="active">关于归梓</li>
+            </ol>
+        </div>
+    </section>
+{% endblock %}
+
+{% block center-content %}
+<section id="content">
+            <div class="content-wrap">
+                <div class="container clearfix">
+                    <!-- Contact Form
+                    ============================================= -->
+                    <div class="col_half">
+
+                        <div class="fancy-title title-dotted-border">
+                            <h3>给我们发邮件</h3>
+                        </div>
+                        <div id="contact-form-result" data-notify-type="success" data-notify-msg="<i class=icon-ok-sign></i> Message Sent Successfully!"></div>
+                        <form class="nobottommargin" id="template-contactform" name="template-contactform" action="include/sendemail.php" method="post">
+                            <div class="form-process"></div>
+                            <div class="col_one_third">
+                                <label for="template-contactform-name">Name <small>*</small></label>
+                                <input type="text" id="template-contactform-name" name="template-contactform-name" value="" class="sm-form-control required" />
+                            </div>
+                            <div class="col_one_third">
+                                <label for="template-contactform-email">Email <small>*</small></label>
+                                <input type="email" id="template-contactform-email" name="template-contactform-email" value="" class="required email sm-form-control" />
+                            </div>
+                            <div class="col_one_third col_last">
+                                <label for="template-contactform-phone">Phone</label>
+                                <input type="text" id="template-contactform-phone" name="template-contactform-phone" value="" class="sm-form-control" />
+                            </div>
+                            <div class="clear"></div>
+                            <div class="col_two_third">
+                                <label for="template-contactform-subject">Subject <small>*</small></label>
+                                <input type="text" id="template-contactform-subject" name="template-contactform-subject" value="" class="required sm-form-control" />
+                            </div>
+                            <div class="col_one_third col_last">
+                                <label for="template-contactform-service">Services</label>
+                                <select id="template-contactform-service" name="template-contactform-service" class="sm-form-control">
+                                    <option value="">-- Select One --</option>
+                                    <option value="Wordpress">Wordpress</option>
+                                    <option value="PHP / MySQL">PHP / MySQL</option>
+                                    <option value="HTML5 / CSS3">HTML5 / CSS3</option>
+                                    <option value="Graphic Design">Graphic Design</option>
+                                </select>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="col_full">
+                                <label for="template-contactform-message">Message <small>*</small></label>
+                                <textarea class="required sm-form-control" id="template-contactform-message" name="template-contactform-message" rows="6" cols="30"></textarea>
+                            </div>
+                            <div class="col_full hidden">
+                                <input type="text" id="template-contactform-botcheck" name="template-contactform-botcheck" value="" class="sm-form-control" />
+                            </div>
+                            <div class="col_full">
+                                <button name="submit" type="submit" id="submit-button" tabindex="5" value="Submit" class="button button-3d nomargin">Submit Comment</button>
+                            </div>
+                        </form>
+
+                        <script type="text/javascript">
+                            $("#template-contactform").validate({
+                                submitHandler: function(form) {
+                                    $('.form-process').fadeIn();
+                                    $(form).ajaxSubmit({
+                                        target: '#contact-form-result',
+                                        success: function() {
+                                            $('.form-process').fadeOut();
+                                            $('#template-contactform').find('.sm-form-control').val('');
+                                            $('#contact-form-result').attr('data-notify-msg', $('#contact-form-result').html()).html('');
+                                            SEMICOLON.widget.notifications($('#contact-form-result'));
+                                        }
+                                    });
+                                }
+                            });
+                        </script>
+                    </div><!-- Contact Form End -->
+                    <!-- Google Map
+                    ============================================= -->
+                    <div class="col_half col_last">
+                        <section id="dituContent" class="gmap" style="height: 240px;"></section>
+
+                        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=g7GgHsOOVvlISU48lA4SObEX"></script>
+                        <script type="text/javascript" src="js/jquery.gmap.js"></script>
+
+                        <script type="text/javascript">
+                        //创建和初始化地图函数：
+                            function initMap(){
+                                createMap();//创建地图
+                                setMapEvent();//设置地图事件
+                                addMapControl();//向地图添加控件
+                                addMarker();//向地图中添加marker
+                            }
+
+                            //创建地图函数：
+                            function createMap(){
+                                var map = new BMap.Map("dituContent");//在百度地图容器中创建一个地图
+                                var point = new BMap.Point(103.838021,30.061145);//定义一个中心点坐标
+                                map.centerAndZoom(point,18);//设定地图的中心点和坐标并将地图显示在地图容器中
+                                window.map = map;//将map变量存储在全局
+                            }
+
+                            //地图事件设置函数：
+                            function setMapEvent(){
+                                map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
+                                map.enableScrollWheelZoom();//启用地图滚轮放大缩小
+                                map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
+                                map.enableKeyboard();//启用键盘上下左右键移动地图
+                            }
+
+                            //地图控件添加函数：
+                            function addMapControl(){
+                                //向地图中添加缩放控件
+                            var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+                            map.addControl(ctrl_nav);
+                                //向地图中添加缩略图控件
+                            var ctrl_ove = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:0});
+                            map.addControl(ctrl_ove);
+                                //向地图中添加比例尺控件
+                            var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+                            map.addControl(ctrl_sca);
+                            }
+
+                            //标注点数组
+                            var markerArr = [{title:"新爱乐文化艺术传播培训学校",content:"电话：028-38191567",point:"103.837739|30.06127",isOpen:1,icon:{w:21,h:21,l:0,t:0,x:6,lb:5}}
+                                 ];
+                            //创建marker
+                            function addMarker(){
+                                for(var i=0;i<markerArr.length;i++){
+                                    var json = markerArr[i];
+                                    var p0 = json.point.split("|")[0];
+                                    var p1 = json.point.split("|")[1];
+                                    var point = new BMap.Point(p0,p1);
+                                    var iconImg = createIcon(json.icon);
+                                    var marker = new BMap.Marker(point,{icon:iconImg});
+                                    var iw = createInfoWindow(i);
+                                    var label = new BMap.Label(json.title,{"offset":new BMap.Size(json.icon.lb-json.icon.x+10,-20)});
+                                    marker.setLabel(label);
+                                    map.addOverlay(marker);
+                                    label.setStyle({
+                                                borderColor:"#808080",
+                                                color:"#333",
+                                                cursor:"pointer"
+                                    });
+
+                                    (function(){
+                                        var index = i;
+                                        var _iw = createInfoWindow(i);
+                                        var _marker = marker;
+                                        _marker.addEventListener("click",function(){
+                                            this.openInfoWindow(_iw);
+                                        });
+                                        _iw.addEventListener("open",function(){
+                                            _marker.getLabel().hide();
+                                        })
+                                        _iw.addEventListener("close",function(){
+                                            _marker.getLabel().show();
+                                        })
+                                        label.addEventListener("click",function(){
+                                            _marker.openInfoWindow(_iw);
+                                        })
+                                        if(!!json.isOpen){
+                                            label.hide();
+                                            _marker.openInfoWindow(_iw);
+                                        }
+                                    })()
+                                }
+                            }
+                            //创建InfoWindow
+                            function createInfoWindow(i){
+                                var json = markerArr[i];
+                                var iw = new BMap.InfoWindow("<b class='iw_poi_title' title='" + json.title + "'>" + json.title + "</b><div class='iw_poi_content'>"+json.content+"</div>");
+                                return iw;
+                            }
+                            //创建一个Icon
+                            function createIcon(json){
+                                var icon = new BMap.Icon("http://app.baidu.com/map/images/us_mk_icon.png", new BMap.Size(json.w,json.h),{imageOffset: new BMap.Size(-json.l,-json.t),infoWindowOffset:new BMap.Size(json.lb+5,1),offset:new BMap.Size(json.x,json.h)})
+                                return icon;
+                            }
+                            initMap();//创建和初始化地图
+                        </script>
+                    </div><!-- Google Map End -->
+
+                    <div class="clear"></div>
+
+                    <!-- Contact Info
+                    ============================================= -->
+                    <div class="row clear-bottommargin">
+
+                        <div class="col-md-3 col-sm-6 bottommargin clearfix">
+                            <div class="feature-box fbox-center fbox-bg fbox-plain">
+                                <div class="fbox-icon">
+                                    <a href="#"><i class="icon-map-marker2"></i></a>
+                                </div>
+                                <h3>眉山, 中国四川<span class="subtitle">XXX街</span></h3>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-6 bottommargin clearfix">
+                            <div class="feature-box fbox-center fbox-bg fbox-plain">
+                                <div class="fbox-icon">
+                                    <a href="#"><i class="icon-phone3"></i></a>
+                                </div>
+                                <h3>服务电话<span class="subtitle">(123) 456 7890</span></h3>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-6 bottommargin clearfix">
+                            <div class="feature-box fbox-center fbox-bg fbox-plain">
+                                <div class="fbox-icon">
+                                    <a href="#"><i class="fa fa-weibo fa-2x"></i></a>
+                                </div>
+                                <h3>Make a Video Call<span class="subtitle">CanvasOnSkype</span></h3>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-sm-6 bottommargin clearfix">
+                            <div class="feature-box fbox-center fbox-bg fbox-plain">
+                                <div class="fbox-icon">
+                                    <a href="#" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-weixin fa-2x"></i></a>
+                                </div>
+                                <h3>扫微信公众号<span class="subtitle">获得最新活动动态</span></h3>
+                            </div>
+                        </div>
+
+                        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-body">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title" id="myModalLabel">微信公众号</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img src="/static/images/qrcode.jpg">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- Contact Info End -->
+
+                </div>
+
+            </div>
+
+        </section>
+{% endblock %}

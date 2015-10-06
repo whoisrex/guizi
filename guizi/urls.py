@@ -30,12 +30,14 @@ urlpatterns = [
     url(r'^uploads/', front.uploads),
     url(r'^article/$', front.blog),
     url(r'^shop/$', front.shop),
+    url(r'^portfolio/$', front.portfolio),
     url(r'^type/(?P<type_slug>[^/]+)/$', front.type),
     url(r'^brand/(?P<brand_slug>[^/]+)/$', front.brand),
     url(r'^shop/(?P<product_id>\d+)$', front.product_info),
     url(r'^article/(?P<article_slug>[^/]+)/$', front.article_info),
     url(r'like/', front.like),
-    url(r'about-us/', front.aboutus)
+    url(r'about-us/', front.aboutus, name="find-us"),
+    url(r'find-us/', front.contact),
 ]
 
 # Add media and static files

@@ -78,6 +78,12 @@ class PortfolioAdmin(admin.ModelAdmin):
     list_display = ("name", )
     fields = ("name", "detail_content", "gallery", "tags")
 
+    def save_model(self, request, obj, form, change):
+        if request.user:
+            obj.created_by = request.user
+            super(PortfolioAdmin, self).save_model(request, obj, form, change)
+
+
 class ProductSpaceAdmin(admin.ModelAdmin):
     fields = ('name',)
     list_display = ('name',)
