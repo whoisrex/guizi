@@ -1,0 +1,40 @@
+<h4>你可能还喜欢这些产品</h4>
+<div id="oc-product" class="owl-carousel product-carousel">
+    {% for item in related_products %}
+    <div class="oc-item">
+        <div class="product iproduct clearfix">
+            <div class="product-image">
+                <a href="/shop/{{ item.id }}"><img src="{{ item.product_gallery.first.thumbnail.url }}" alt="{{ item.name }}"></a>
+                <a href="/shop/{{ item.id }}"><img src="{{ item.product_gallery.first.image.url }}" alt="{{ item.name }}"></a>
+
+                {% if item.is_discount %}
+                    <div class="sale-flash" style="background-color: #c9302c"><i class="icon-fire icon-2x"></i>{% widthratio item.new_price item.origin_price 10 %}折</div>
+                {% endif %}
+                <div class="product-overlay">
+                    <a href="#" class="add-to-cart"><i class="icon-shopping-cart"></i><span> Add to Cart</span></a>
+                    <a href="include/ajax/shop-item.html" class="item-quick-view" data-lightbox="ajax"><i
+                            class="icon-zoom-in2"></i><span>快速浏览</span></a>
+                </div>
+            </div>
+            <div class="product-desc center">
+                <div class="product-title"><h3><a href="/shop/{{ item.id }}">{{ item.name }}</a></h3></div>
+                <div class="product-price">
+                    {% if item.is_discount %}
+                    <del>￥{{ item.origin_price }}</del>
+                    <ins>￥{{ item.new_price }}</ins>
+                    {% else %}
+                    <ins>￥{{ item.origin_price }}</ins>
+                    {% endif %}
+                </div>
+                <div class="product-rating">
+                    <i class="icon-star3"></i>
+                    <i class="icon-star3"></i>
+                    <i class="icon-star3"></i>
+                    <i class="icon-star3"></i>
+                    <i class="icon-star-half-full"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

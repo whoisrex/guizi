@@ -1,0 +1,254 @@
+{% extends "base_general.html" %}
+
+{% block title %}
+    {{ article.name }}
+{% endblock %}
+
+{% block center-content %}
+    <section id="page-title">
+        <div class="container clearfix">
+            <h1>{{ article.name }}</h1>
+            <span>{{ article.short_content }}</span>
+            <ol class="breadcrumb">
+                <li><a href="/">主页</a></li>
+                <li class="active"><a href="/article/">艺考文章</a></li>
+            </ol>
+        </div>
+    </section><!-- #page-title end -->
+
+    <!-- Content
+============================================= -->
+    {% load light_tags %}
+    {% load comments %}
+    {% get_comment_count for article as comment_count %}
+    <section id="content">
+        <div class="content-wrap">
+            <div class="container clearfix">
+                <!-- Post Content
+                ============================================= -->
+                <div class="postcontent nobottommargin col_last clearfix">
+                    <div class="single-post nobottommargin">
+                        <!-- Single Post
+                        ============================================= -->
+                        <div class="entry clearfix">
+                            <!-- Entry Title
+                            ============================================= -->
+                            <div class="entry-title">
+                                <h2>{{ article.title }}</h2>
+                            </div>
+                            <!-- .entry-title end -->
+                            <!-- Entry Meta
+                            ============================================= -->
+                            <ul class="entry-meta clearfix">
+                                <li id="moment"><i class="icon-calendar3"></i></li>
+                                <li><a href="#author">
+                                    <img src="{{ article.created_by.profile.get_mugshot_url }}"
+                                         class="img-circle" height='20' width='20'/> {{ article.created_by }}</a></li>
+                                <li><a href="#comments"><i class="icon-comments"></i> {{ comment_count }} 评论</a>
+                                </li>
+                            </ul>
+                            <!-- .entry-meta end -->
+
+                            <!-- Entry Image
+                            ============================================= -->
+                            <div class="entry-image">
+                                <a href="{{ article.cover.image.url }}">
+                                    <img src="{{ article.cover.image.url }}"  alt="{{ article.name }}"></a>
+                            </div>
+                            <!-- .entry-image end -->
+
+                            <!-- Entry Content
+                            ============================================= -->
+                            <div class="entry-content notopmargin">
+                                {{ article.detail_content |safe }}
+                                <!-- Tag Cloud
+                                ============================================= -->
+                                <div class="tagcloud clearfix bottommargin">
+                                    {% for tag in article.tags.names %}
+                                        <a href="/tag/{{ tag }}">{{ tag }}</a>
+                                    {% endfor %}
+                                </div>
+                                <!-- .tagcloud end -->
+
+                                <div class="clear"></div>
+
+                                <!-- Post Single - Share
+                                ============================================= -->
+                                <div class="si-share noborder clearfix">
+                                    <span>分享到社交媒体:</span>
+
+                                    <!-- JiaThis Button BEGIN -->
+                                    <div class="jiathis_style_32x32">
+                                        <a class="jiathis_button_qzone"></a>
+                                        <a class="jiathis_button_tsina"></a>
+                                        <a class="jiathis_button_tqq"></a>
+                                        <a class="jiathis_button_weixin"></a>
+                                        <a class="jiathis_button_renren"></a>
+                                        <a href="http://www.jiathis.com/share?uid=2057332"
+                                           class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                                        <a class="jiathis_counter_style"></a>
+                                    </div>
+                                    <script type="text/javascript">
+                                        var jiathis_config = {data_track_clickback: 'true'};
+                                    </script>
+                                    <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2057332"
+                                            charset="utf-8"></script>
+                                    <!-- JiaThis Button END -->
+                                </div>
+                                <!-- Post Single - Share End -->
+
+                            </div>
+                        </div>
+                        <!-- .entry end -->
+
+                        <!-- Post Navigation
+                        ============================================= -->
+                        <div class="post-navigation clearfix">
+
+                            <div class="col_half nobottommargin">
+                                {% with next=article.get_next_article %}
+                                    {% if next %}
+                                        <a href="/article/{{ next.slug }}" title="上一篇"><i class="icon-arrow-left2 icon-lg"></i> {{ next.name }}</a>
+                                    {% else %}
+                                        &nbsp;
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+
+
+                            <div class="col_half col_last tright nobottommargin">
+                                {% with previous=article.get_previous_article %}
+                                    {% if previous %}
+                                        <a href="/article/{{ previous.slug }}" title="下一篇">{{ previous.name }} <i class="icon-arrow-right2 icon-lg"></i></a>
+                                    {% else %}
+                                        &nbsp;
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+                        </div>
+                        <!-- .post-navigation end -->
+
+                        <div class="line"></div>
+
+                        <!-- Post Author Info
+                        ============================================= -->
+                        <div id="author" class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Posted by <span><a href="#">{{ article.created_by }}</a></span>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="author-image">
+                                    <img src="{{ article.created_by.profile.get_mugshot_url }}" alt=""
+                                         class="img-circle">
+                                </div>
+                                {{ article.created_by.profile.about_me }}
+                            </div>
+                        </div>
+                        <!-- Post Single - Author End -->
+
+                        <div class="line"></div>
+
+                        {% render_related_article for article %}
+
+                        <!-- Comments
+                        ============================================= -->
+                        <div id="comments" class="clearfix">
+                            <h3 id="comments-title"><span>评论</span></h3>
+                            {% render_comment_list for article %}
+                        </div>
+                        <!-- #comments end -->
+
+                        <div class="clear"></div>
+                        <!-- Comment Form
+                            ============================================= -->
+                        <div id="respond" class="clearfix">
+                            {% render_comment_form for article %}
+                        </div>
+                    </div>
+
+                </div>
+                <!-- .postcontent end -->
+                <div class="sidebar nobottommargin clearfix">
+                    <div class="sidebar-widgets-wrap">
+                        {% render_article_sidebar %}
+                        <div class="widget clearfix">
+                            <h4>Portfolio Carousel</h4>
+
+                            <div id="oc-portfolio-sidebar" class="owl-carousel portfolio-5">
+                                <div class="oc-item">
+                                    <div class="iportfolio">
+                                        <div class="portfolio-image">
+                                            <a href="#">
+                                                <img src="images/portfolio/4/3.jpg" alt="Mac Sunglasses">
+                                            </a>
+
+                                            <div class="portfolio-overlay">
+                                                <a href="http://vimeo.com/89396394" class="center-icon"
+                                                   data-lightbox="iframe"><i
+                                                        class="icon-line-play"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="portfolio-desc center nobottompadding">
+                                            <h3><a href="portfolio-single-video.html">Mac Sunglasses</a></h3>
+                                            <span><a href="#">Graphics</a>, <a href="#">UI Elements</a></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="oc-item">
+                                    <div class="iportfolio">
+                                        <div class="portfolio-image">
+                                            <a href="portfolio-single.html">
+                                                <img src="images/portfolio/4/1.jpg" alt="Open Imagination">
+                                            </a>
+
+                                            <div class="portfolio-overlay">
+                                                <a href="images/blog/full/1.jpg" class="center-icon"
+                                                   data-lightbox="image"><i
+                                                        class="icon-line-plus"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="portfolio-desc center nobottompadding">
+                                            <h3><a href="portfolio-single.html">Open Imagination</a></h3>
+                                            <span><a href="#">Media</a>, <a href="#">Icons</a></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <script type="text/javascript">
+
+                                jQuery(document).ready(function ($) {
+
+                                    var ocClients = $("#oc-portfolio-sidebar");
+
+                                    ocClients.owlCarousel({
+                                        items: 1,
+                                        margin: 10,
+                                        loop: true,
+                                        nav: false,
+                                        autoplay: true,
+                                        dots: true,
+                                        autoplayHoverPause: true
+                                    });
+
+                                });
+
+                            </script>
+
+                        </div>
+                        {% render_tagcloud_widget %}
+                    </div>
+
+                </div>
+                <!-- .sidebar end -->
+
+            </div>
+
+        </div>
+
+    </section><!-- #content end -->
+
+{% endblock %}

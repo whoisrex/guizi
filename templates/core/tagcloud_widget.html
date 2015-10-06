@@ -1,0 +1,10 @@
+<div class="widget clearfix">
+    <h4>最火的标签</h4>
+
+    <div class="tagcloud">
+        {% for tag in tag_cloud %}
+            <a href="/tag/{{ tag.2 }}">{{ tag.1 }}</a>
+        {% endfor %}
+    </div>
+
+</div>

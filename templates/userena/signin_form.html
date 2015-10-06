@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+        <!-- Content
+        ============================================= -->
+{% block center-content %}
+        <section id="content">
+            <div class="content-wrap nopadding">
+                <div class="section nopadding nomargin" style="width: 100%; height: 100%; position: absolute; left: 0; top: 0; background: url('/static/images/signin-bg.jpg') center center no-repeat; background-size: cover;"></div>
+                <div class="section nobg full-screen nopadding nomargin">
+                    <div class="container vertical-middle divcenter clearfix">
+                        <div class="row center bottommargin-sm">
+                            <a href="/"><img src="/static/images/logo.png" alt="回到主页" style="max-width: 50px;" title="回到主页"></a>
+                        </div>
+                        <div class="panel panel-default divcenter noradius noborder dark" style="max-width: 400px; background:#000;filter:alpha(opacity:70); opacity:0.7;">
+                            <div class="panel-body" style="padding: 20px;">
+                                <form id="login-form" class="nobottommargin" action="/user/signin/" method="POST">
+                                    <h5 class="center">用户登陆</h5>
+                                    {{ form.non_field_errors }}
+                                    {% for field in form %}
+                                        {{ field.errors }}
+                                    {% endfor %}
+                                    {% csrf_token %}
+                                    {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+                                    <div class="form-group">
+                                        <input type="text" id="id_identification" name="identification" placeholder="用户名或邮箱"
+                                                       class="form-control input-small">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" id="id_password"  name="password" placeholder="密码"
+                                                       class="form-control input-small">
+                                    </div>
+                                    <div class="form-inline form-group">
+                                        <div class="checkbox col-md-4 topmargin">
+                                            <label>
+                                                <input type="checkbox" id="id_remember_me"  name="remember_me">
+                                                <small class="light"> 记住我</small>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-8 topmargin-sm">
+                                            <button type="submit" class="button button-lg button-rounded si-colored"><i class="icon-signin"></i>
+                                                &nbsp;登录</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="line line-sm"></div>
+                                <div class="center">
+                                    <h4 style="margin-bottom: 15px;">或者用社交帐号登录:</h4>
+                                    <a href="#" class="button button-rounded button-reveal button-small button-red"><i class="fa fa-weibo"></i><span>微博登陆</span></a>
+                                    <span class="hidden-xs">&nbsp;</span>
+                                    <a href="#" class="button button-rounded button-reveal button-small button-green"><i class="fa fa-weixin"></i><span>微信登陆</span></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row center dark"><small>COPYRIGHT &copy; 归梓艺术设计.</small></div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </section><!-- #content end -->
+{% endblock %}

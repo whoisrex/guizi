@@ -1,0 +1,11 @@
+<div id="shop-promotion">
+    <div class="container clearfix">
+        {% for promote in promotions %}
+        <div class="col-md-6 nopadding">
+            <a href="#"><img src="{{ promote.cover.image.url }}" alt="{{ promotion.name }}"></a>
+        </div>
+        {% endfor %}
+        <div class="clear"></div>
+        <div class="clear bottommargin-sm"></div>
+    </div>
+</div>

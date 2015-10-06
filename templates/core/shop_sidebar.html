@@ -1,0 +1,39 @@
+<div class="toggle toggle-bg">
+    <div class="togglet">
+        <i class="toggle-closed icon-line-align-justify"></i>
+        <i class="toggle-open icon-line-align-left"></i>
+        商品种类</div>
+     <div class="togglec">
+        <ul class="list-group">
+        {% for type in product_types %}
+        <li class="list-group-item"><a href="/type/{{ type.slug }}">{{ type.name }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+<div class="toggle toggle-bg">
+    <div class="togglet">
+        <i class="toggle-closed icon-line-align-justify"></i>
+        <i class="toggle-open icon-line-align-left"></i>
+        适用空间</div>
+    <div class="togglec">
+        <ul class="list-group">
+            {% for space in spaces %}
+            <li class="list-group-item"><a href="/space/{{ space.slug }}">{{ space.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<div class="toggle toggle-bg">
+    <div class="togglet">
+        <i class="toggle-closed icon-line-align-justify"></i>
+        <i class="toggle-open icon-line-align-left"></i>
+        品牌</div>
+    <div class="togglec">
+        <ul class="list-group">
+            {% for brand in brands %}
+            <li class="list-group-item"><a href="/brand/{{ brand.slug }}">{{ brand.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

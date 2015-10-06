@@ -1,0 +1,60 @@
+{% extends "base_general.html" %}
+{% block title %}
+    新爱乐艺术教育|搜索结果
+{% endblock %}
+
+{% block slider %}
+    <!-- Page Title
+    ============================================= -->
+    <section id="page-title" class="page-title-parallax page-title-dark"
+             style="padding: 250px 0; background-image: url('/static/images/intro-contact.jpg'); background-size: cover; background-position: center center;"
+             data-stellar-background-ratio="0.4">
+        <div class="container clearfix">
+            <h1>搜索“{{ query }}”的结果</h1>
+            <span>你的反馈能帮我们提供更好的教育服务</span>
+            <ol class="breadcrumb">
+                <li><a href="#">主页</a></li>
+                <li class="active">搜索结果</li>
+            </ol>
+        </div>
+    </section><!-- #page-title end -->
+{% endblock %}
+
+{% block center-content %}
+    <section id="content">
+        <div class="content-wrap">
+            <div class="container clearfix">
+                {% if query %}
+                    <h3>找到{{ page.object_list | length }}个结果</h3>
+                    {% for result in page.object_list %}
+                        <p>
+                            {% if result.content_type == "core.article" %}
+                                <a href="/article/{{ result.object.slug }}">{{ result.object.title }}</a><br/>
+                            {% elif result.content_type == "core.activity"%}
+                                <a href="/activity/{{ result.object.slug }}">{{ result.object.title }}</a><br/>
+                            {% elif result.content_type == "core.portfolio"%}
+                                <a href="/portfolio/{{ result.object.slug }}">{{ result.object.title }}</a><br/>
+                            {% endif %}
+                        </p>
+                    {% empty %}
+                        <p>没有结果发现.</p>
+                    {% endfor %}
+
+                    {% if page.has_previous or page.has_next %}
+                        <div>
+                            {% if page.has_previous %}
+                                <a href="?q={{ query }}&page={{ page.previous_page_number }}">{% endif %}«
+                            Previous{% if page.has_previous %}</a>{% endif %}
+                            |
+                            {% if page.has_next %}<a href="?q={{ query }}&page={{ page.next_page_number }}">{% endif %}
+                            Next »
+                            {% if page.has_next %}</a>{% endif %}
+                        </div>
+                    {% endif %}
+                {% else %}
+                    {# Show some example queries to run, maybe query syntax, something else? #}
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

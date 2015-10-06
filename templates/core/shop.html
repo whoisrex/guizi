@@ -1,0 +1,100 @@
+{% extends "base_general_transparentbar.html" %}
+{% load light_tags %}
+{% block title %}
+    归梓|商品
+{% endblock %}
+
+{% block styles %}
+    <style>
+        .revo-slider-emphasis-text {
+            font-size: 58px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-family: 'Raleway', sans-serif;
+            padding: 15px 20px;
+            border-top: 2px solid #FFF;
+            border-bottom: 2px solid #FFF;
+        }
+        .revo-slider-desc-text {
+            font-size: 20px;
+            font-family: 'Lato', sans-serif;
+            width: 650px;
+            text-align: center;
+            line-height: 1.5;
+        }
+        .revo-slider-caps-text {
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 3px;
+            font-family: 'Raleway', sans-serif;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="/static/include/rs-plugin/css/settings.css" media="screen" />
+{% endblock %}
+
+{% block slider %}
+    {% render_shop_slider %}
+{% endblock %}
+
+{% block center-content %}
+          <!-- Content
+    ============================================= -->
+    <section id="content">
+        <div class="content-wrap nopadding">
+            <div id="portfolio" class="portfolio-parallax clearfix">
+                    {% for product_type in product_types %}
+                        <article class="portfolio-item pf-media pf-icons">
+                            <div class="portfolio-image" style="background-image: url('{{ product_type.cover.image.url }}');background-size:cover" data-stellar-background-ratio="0.5"><div class="portfolio-overlay"></div></div>
+                            <div class="portfolio-desc">
+                                <h3><a href="/type/{{ product_type.slug }}">{{ product_type.name }}</a></h3>
+                                <div class="portfolio-divider"><div></div></div>
+                            </div>
+                        </article>
+                    {% endfor %}
+            </div>
+
+            <div class="container clearfix">
+                <!-- Shop
+                    ============================================= -->
+                <div id="section-services" class="page-section notoppadding">
+				    <div class="section nomargin">
+					<div class="container clearfix">
+						<div class="divcenter center" style="max-width: 900px;">
+							<h2 class="nobottommargin ls1" style="font-size: 16px;font-family:SiYuan-ExtraLight">一个人只有具有真正的工匠一般的精神，才有可能将腐朽变为神奇。在我们的服务和细节上只有做到能力上的最极致才有可能超出用户的预期值，让他们知道“回家”并不只是一个动词，而是一种精神意义上的回归，回归到简朴回归到踏实的家庭生活。通过这些产品，这些物件所散发的最真挚的生活的味道。</h2>
+						</div>
+					</div>
+				    </div>
+                </div>
+                <div id="shop" class="clearfix">
+                        {% for product in products %}
+                        <div class="product clearfix">
+                            <div class="product-image">
+                                <a href="#"><img src="{{ product.get_cover_url}}" alt="{{ product.name }}"></a>
+                                {% if product.is_discount %}
+                                    <div class="sale-flash" style="background-color: #c9302c"><i class="icon-fire icon-2x"></i>{% widthratio product.new_price product.origin_price 10 %}折</div>
+                                {% endif %}
+                                <div class="product-overlay">
+                                    <a href="#" class="add-to-cart"><i class="icon-plus-sign icon-lg"></i><span> 收集到心愿单</span></a>
+                                    <a href="include/ajax/shop-item.html" class="item-quick-view" data-lightbox="ajax"><i class="icon-zoom-in2"></i><span>商品详情</span></a>
+                                </div>
+                            </div>
+                            <div class="product-desc center">
+                                <div class="product-title"><h5><a href="/shop/{{ product.id }}">{{ product.name }}</a></h5></div>
+                                {% if product.is_discount %}
+                                    <div class="product-price">原价: <del>￥{{ product.origin_price }}</del> <br> 现价: <ins>￥{{ product.new_price }}</ins></div>
+                                {% else %}
+                                    <div class="product-price"><ins>￥{{ product.origin_price }}</ins></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section><!-- #content end -->
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="/static/include/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+    <script type="text/javascript" src="/static/include/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+{% endblock %}

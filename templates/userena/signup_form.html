@@ -1,0 +1,55 @@
+{% extends "userena/base_userena.html" %}
+{% load i18n static %}
+{% load url from future %}
+<!-- Start Home Section-->
+{% block content %}
+    <section id="home" class="demo-1">
+        <!--     Codrops top bar-->
+        <div id="slider" class="sl-slider-wrapper">
+            <div class="sl-slider">
+                <!-- start slide-->
+                <div data-orientation="horizontal" data-slice1-rotation="-25" data-slice2-rotation="-25"
+                     data-slice1-scale="2" data-slice2-scale="2" class="sl-slide">
+                    <div style="background-image: url(/static/images/slider/2.jpg);" class="sl-slide-inner">
+                        <div class="slide-container">
+                            <div class="slide-content text-center"><img src="/static/images/logo-black.png"
+                                                                        alt="LOGO" class="deco">
+
+                                <div class="row">
+                                    <div class="col-md-4 col-md-offset-4">
+                                        <h4 class="main-title">注册&nbsp;</h4>
+
+                                        <form action="/user/signup/" method="POST">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <input class="required form-control input-lg" id="id_username" maxlength="30" name="username" type="text" placeholder="请输入用户名">
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="required form-control input-lg" id="id_email" maxlength="75" name="email" type="text" placeholder="请输入邮箱"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" id="id_password1"  name="password1" placeholder="请输入密码"
+                                                       class="required form-control input-lg">
+                                            </div>
+                                            <div class="form-group">
+                                                <input  id="id_password2" name="password2" type="password" placeholder="请再次输入密码"
+                                                       class="required form-control input-lg">
+                                            </div>
+
+                                            <div class="form-inline form-group">
+                                                <button type="submit" class="btn btn-primary">注册新用户</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end slide-->
+            </div>
+            <!--       /sl-slider-->
+        </div>
+        <!--     /slider-wrapper-->
+    </section>
+{% endblock %}

@@ -1,0 +1,190 @@
+{% extends "base_general_transparentbar.html" %}
+{% load light_tags %}
+{% block title %}
+    归梓|专注艺术教育
+{% endblock %}
+
+{% block styles %}
+    <style>
+        .revo-slider-emphasis-text {
+            font-size: 58px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-family: 'Raleway', sans-serif;
+            padding: 15px 20px;
+            border-top: 2px solid #FFF;
+            border-bottom: 2px solid #FFF;
+        }
+
+        .revo-slider-desc-text {
+            font-size: 20px;
+            font-family: 'Lato', sans-serif;
+            width: 650px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .revo-slider-caps-text {
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 3px;
+            font-family: 'Raleway', sans-serif;
+        }
+
+    </style>
+    <link rel="stylesheet" type="text/css" href="/static/include/rs-plugin/css/settings.css" media="screen" />
+{% endblock %}
+
+{% block slider %}
+    {% render_article_slider %}
+{% endblock %}
+
+{% block center-content %}
+      <!-- Page Title
+        ============================================= -->
+        <section id="page-title">
+
+            <div class="container clearfix">
+                <span>装修文章</span>
+                <ol class="breadcrumb">
+                    <li><a href="/">主页</a></li>
+                    <li class="/four-season">装修文章</li>
+                </ol>
+            </div>
+
+        </section><!-- #page-title end -->
+           <!-- Content
+        ============================================= -->
+        <section id="content">
+
+            <div class="content-wrap">
+
+                <div class="container clearfix">
+
+                    <!-- Post Content
+                    ============================================= -->
+                    <div class="postcontent nobottommargin col_last clearfix">
+
+                        <!-- Posts
+                        ============================================= -->
+                        <div id="posts" class="post-timeline clearfix">
+
+                            <div class="timeline-border"></div>
+                            {% for article in page.object_list %}
+                            <div class="entry clearfix">
+                                <div class="entry-timeline">
+                                    {{ article.created_at |date:"N"}}<span>{{ article.created_at |date:"d"}}</span>
+                                    <div class="timeline-divider"></div>
+                                </div>
+                                <div class="entry-image">
+                                    <a href="{{ article.cover.image.url }}" data-lightbox="image">
+                                        <img class="image_fade" src="{{ article.cover.image.url }}" alt="Standard Post with Image"></a>
+                                </div>
+                                <div class="entry-title">
+                                    <h2><a href="/article/{{ article.slug }}">{{ article.name }}</a></h2>
+                                </div>
+                                <div class="entry-content">
+                                    <p>{{ article.short_content }}</p>
+                                    <a href="/article/{{ article.slug }}"class="more-link">阅读全文</a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div><!-- #posts end -->
+                        <ul class="pager nomargin">
+                            {% if page.has_previous %}
+                                <li class="previous"><a href="/article/{{ type }}/?p={{ page.previous_page_number }}">&larr; Older</a></li>
+                            {% endif %}
+                            {% if page.has_next %}
+                                <li class="next"><a href="/article/{{ type }}/?p={{ page.next_page_number }}">Newer &rarr;</a></li>
+                            {% endif %}
+                        </ul><!-- .pager end -->
+                    </div><!-- .postcontent end -->
+
+                    <!-- Sidebar
+                    ============================================= -->
+                    <div class="sidebar nobottommargin clearfix">
+                        <div class="sidebar-widgets-wrap">
+
+                            {% render_article_sidebar %}
+                            <div class="widget clearfix">
+
+                                <h4>Portfolio Carousel</h4>
+                                <div id="oc-portfolio-sidebar" class="owl-carousel portfolio-5">
+
+                                    <div class="oc-item">
+                                        <div class="iportfolio">
+                                            <div class="portfolio-image">
+                                                <a href="#">
+                                                    <img src="images/portfolio/4/3.jpg" alt="Mac Sunglasses">
+                                                </a>
+                                                <div class="portfolio-overlay">
+                                                    <a href="http://vimeo.com/89396394" class="center-icon" data-lightbox="iframe"><i class="icon-line-play"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="portfolio-desc center nobottompadding">
+                                                <h3><a href="portfolio-single-video.html">Mac Sunglasses</a></h3>
+                                                <span><a href="#">Graphics</a>, <a href="#">UI Elements</a></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="oc-item">
+                                        <div class="iportfolio">
+                                            <div class="portfolio-image">
+                                                <a href="portfolio-single.html">
+                                                    <img src="images/portfolio/4/1.jpg" alt="Open Imagination">
+                                                </a>
+                                                <div class="portfolio-overlay">
+                                                    <a href="images/blog/full/1.jpg" class="center-icon" data-lightbox="image"><i class="icon-line-plus"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="portfolio-desc center nobottompadding">
+                                                <h3><a href="portfolio-single.html">Open Imagination</a></h3>
+                                                <span><a href="#">Media</a>, <a href="#">Icons</a></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <script type="text/javascript">
+
+                                    jQuery(document).ready(function($) {
+
+                                        var ocClients = $("#oc-portfolio-sidebar");
+
+                                        ocClients.owlCarousel({
+                                            items: 1,
+                                            margin: 10,
+                                            loop: true,
+                                            nav: false,
+                                            autoplay: true,
+                                            dots: true,
+                                            autoplayHoverPause: true
+                                        });
+
+                                    });
+
+                                </script>
+
+                            </div>
+
+                            {% render_tagcloud_widget %}
+
+                        </div>
+
+                    </div><!-- .sidebar end -->
+
+                </div>
+
+            </div>
+
+        </section><!-- #content end -->
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="/static/include/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+    <script type="text/javascript" src="/static/include/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+{% endblock %}

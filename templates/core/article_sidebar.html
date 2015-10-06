@@ -1,0 +1,59 @@
+<!-- Sidebar
+                    ============================================= -->
+        <div class="widget clearfix">
+            <div class="tabs nobottommargin clearfix" id="sidebar-tabs">
+                <ul class="tab-nav clearfix">
+                    <li><a href="#tabs-1">最热文章</a></li>
+                    <li><a href="#tabs-2">最新文章</a></li>
+                </ul>
+                <div class="tab-container">
+                    <div class="tab-content clearfix" id="tabs-1">
+                        <div id="popular-post-list-sidebar">
+                            {% for article in pop_articles %}
+                                <div class="spost clearfix">
+                                    <div class="entry-image">
+                                        <a href="#" class="nobg"><img class="img-circle"
+                                                                      src="{{ article.cover.image.url }}"
+                                                                      alt="{{ article.name }}"></a>
+                                    </div>
+                                    <div class="entry-c">
+                                        <div class="entry-title">
+                                            <h4><a href="/article/{{ article.slug }}">{{ article.name }}</a></h4>
+                                        </div>
+                                        <ul class="entry-meta">
+                                            {% load comments %}
+                                            {% get_comment_count for article as comment_count %}
+                                            <li><i class="icon-comments-alt"></i> {{ comment_count }}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="tab-content clearfix" id="tabs-2">
+                        <div id="recent-post-list-sidebar">
+                            {% for article in recent_articles %}
+                                <div class="spost clearfix">
+                                    <div class="entry-image">
+                                        <a href="#" class="nobg"><img class="img-circle"
+                                                                      src="{{ article.cover.image.url }}"
+                                                                      alt="{{ article.name }}"></a>
+                                    </div>
+                                    <div class="entry-c">
+                                        <div class="entry-title">
+                                            <h4><a href="/article/{{ article.slug }}">{{ article.name }}</a></h4>
+                                        </div>
+                                        <ul class="entry-meta">
+                                            <li>{{ article.created_at }}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+

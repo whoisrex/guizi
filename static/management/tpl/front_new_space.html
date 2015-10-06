@@ -1,0 +1,27 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">创建产品适用空间</h1>
+</div>
+
+<div class="wrapper-md" ng-controller="NewSpaceCtrl">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading font-bold">产品适用空间</div>
+                <div class="panel-body">
+                    <form role="form" name="space">
+                        <div class="form-group">
+                            <label>空间名称：</label>
+                            <input type="text" ng-model="space.name" class="form-control" placeholder="空间名称" required>
+                        </div>
+                        <button type="submit" class="btn btn-sm btn-primary" ng-click="submit_space()">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6" >
+            <div ng-show="display_cover" class="bg-light">
+                <img ng-src="{{ uploads }}" class="w-xxl">
+            </div>
+        </div>
+    </div>
+</div>

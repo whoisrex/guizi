@@ -1,0 +1,287 @@
+{% extends "base_general_transparentbar.html" %}
+{% load light_tags %}
+{% load comments %}
+{% block title %}
+    归梓|{{ product.name }}
+{% endblock %}
+{% block styles %}
+    <style>
+        .revo-slider-emphasis-text {
+            font-size: 58px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-family: 'Raleway', sans-serif;
+            padding: 15px 20px;
+            border-top: 2px solid #FFF;
+            border-bottom: 2px solid #FFF;
+        }
+        .revo-slider-desc-text {
+            font-size: 20px;
+            font-family: 'Lato', sans-serif;
+            width: 650px;
+            text-align: center;
+            line-height: 1.5;
+        }
+        .revo-slider-caps-text {
+            font-size: 16px;
+            font-weight: 400;
+            letter-spacing: 3px;
+            font-family: 'Raleway', sans-serif;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="/static/include/rs-plugin/css/settings.css" media="screen" />
+{% endblock %}
+
+{% block slider %}
+    <section id="page-title"  class="page-title-parallax page-title-dark" style="background-image: url('{{ product.type.cover.image.url }}');background-size:cover; padding: 120px 0;" data-stellar-background-ratio="0.3">
+        <div class="container clearfix">
+                <h1>{{ product.type.name }}</h1>
+                <span>{{ product.type.short_content }}</span>
+                <ol class="breadcrumb">
+                    <li><a href="/">主页</a></li>
+                    <li class="active"><a href="/shop">商店</a></li>
+                </ol>
+            </div>
+        </section><!-- #page-title end -->
+{% endblock %}
+
+{% block center-content %}
+    <section id="content">
+        <div class="content-wrap">
+            <div class="container clearfix">
+                <div class="single-product">
+                    <div class="product">
+                        <div class="col_two_fifth">
+                            <!-- Product Single - Gallery
+                            ============================================= -->
+                            <div class="product-image">
+                                <div class="fslider" data-pagi="false" data-arrows="false" data-thumbs="true">
+                                    <div class="flexslider">
+                                        <div class="slider-wrap" data-lightbox="gallery">
+                                            {% for image in product.product_gallery.all %}
+                                                <div class="slide" data-thumb="{{ image.thumbnail.url }}"><a href="{{ image.image.url }}" title="{{ product.name }}" data-lightbox="gallery-item"><img src="{{ image.image.url }}" alt="{{ product.name }}"></a></div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if product.is_discount %}
+                                    <div class="sale-flash" style="background-color: #c9302c"><i class="icon-fire icon-2x"></i>{% widthratio product.new_price product.origin_price 10 %}折</div>
+                                {% endif %}
+                            </div><!-- Product Single - Gallery End -->
+                        </div>
+
+                        <div class="col_two_fifth product-desc">
+                            <h1>{{ product.name }}</h1>
+                            <!-- Product Single - Price
+                            ============================================= -->
+                            {% if product.is_discount %}
+                                <div class="product-price">原价: <del>￥{{ product.origin_price }}</del> <br> 现价: <ins>￥{{ product.new_price }}</ins></div>
+                            {% else %}
+                                <div class="product-price"><ins>￥{{ product.origin_price }}</ins></div>
+                            {% endif %}
+                            <!-- Product Single - Price End -->
+                            <!-- Product Single - Rating
+                            ============================================= -->
+                            <div class="product-rating">
+{#                                <i class="icon-star3 icon-2x"></i>#}
+{#                                <i class="icon-star3 icon-2x"></i>#}
+{#                                <i class="icon-star3 icon-2x"></i>#}
+{#                                <i class="icon-star-half-full icon-2x"></i>#}
+{#                                <i class="icon-star-empty icon-2x"></i>#}
+{#                                <input type="number" name="" value="5" data-clearable="remove" data-max="5"#}
+{#                                               data-min="1" data-icon-lib="fa" data-active-icon="fa-star"#}
+{#                                               data-inactive-icon="icon-star-empty" data-clearable-icon="fa-times" class="rating">#}
+                            </div><!-- Product Single - Rating End -->
+                            <div class="clear"></div>
+                            <div class="line"></div>
+                            <!-- Product Single - Short Description
+                            ============================================= -->
+                            <p>{{ product.description }}</p>
+                            <!-- Product Single - Meta
+                            ============================================= -->
+                            <div class="panel panel-default product-meta">
+                                <div class="panel-body">
+                                    <span itemprop="productID" class="sku_wrapper">适用空间:
+                                        {% for space in product.applicable_space.all %}
+                                        <span class="sku"><a href="/space/{{ space.slug }}">{{ space.name }}</a></span>
+                                        {% endfor %}
+                                    </span>
+                                    <span class="posted_in">产品类别: <a href="/type/{{ product.type.slug }}" rel="tag">{{ product.type }}</a>.</span>
+                                    <span class="tagged_as">标签:
+                                        {% for tag in product.tags.names %}
+                                        <a href="/tag/{{ tag }}">{{ tag }}</a>
+                                         {% endfor %}
+                                    </span>
+                                </div>
+                            </div><!-- Product Single - Meta End -->
+                            <div class="product_rate">
+                                <div class="col-md-6">
+                                <a href="javascript:void(0)" rel="{{ product.id }}" class="product-like" id="like_flag">
+                                    {% if is_like %}
+                                        <i class="icon-heart3 icon-2x" data-toggle="tooltip" data-placement="left" title="已喜欢"></i>
+                                    {% else %}
+                                        <i class="icon-heart-empty icon-2x" data-toggle="tooltip" data-placement="left" title="喜欢"></i>
+                                    {% endif %}
+                                    </a>&nbsp;喜欢
+                                    <small id="like_count">{{ product.get_like_count }}</small>
+                                </div><div class="col-md-6">
+                                <button id='collect' type="button" rel="{{ product.id }}" class="button nomargin right-align">
+                                    <i class="icon-plus-sign icon-lg"></i>
+                                    收集
+                                </button></div>
+                            </div>
+                            <!-- Product Single - Quantity & Cart Button
+                            ============================================= -->
+{#                            <form class="cart nobottommargin clearfix" method="post" enctype='multipart/form-data'>#}
+{#                                <div class="quantity clearfix">#}
+{#                                    <input type="button" value="-" class="minus">#}
+{#                                    <input type="text" step="1" min="1"  name="quantity" value="1" title="Qty" class="qty" size="4" />#}
+{#                                    <input type="button" value="+" class="plus">#}
+{#                                </div>#}
+{#                                <button type="submit" class="add-to-cart button nomargin">添加到购物车</button>#}
+{#                            </form><!-- Product Single - Quantity & Cart Button End -->#}
+                            <div class="clear"></div>
+                            <div class="line"></div>
+                            <!-- Product Single - Share
+                            ============================================= -->
+                            <div class="si-share noborder clearfix">
+                                <span>分享到社交媒体:</span>
+                                <!-- JiaThis Button BEGIN -->
+                                <div class="jiathis_style_32x32">
+                                    <a class="jiathis_button_qzone"></a>
+                                    <a class="jiathis_button_tsina"></a>
+                                    <a class="jiathis_button_tqq"></a>
+                                    <a class="jiathis_button_weixin"></a>
+                                    <a class="jiathis_button_renren"></a>
+                                    <a href="http://www.jiathis.com/share?uid=2057332"
+                                       class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                                    <a class="jiathis_counter_style"></a>
+                                </div>
+                                <script type="text/javascript">
+                                    var jiathis_config = {data_track_clickback: 'true'};
+                                </script>
+                                <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2057332"
+                                        charset="utf-8"></script>
+                            </div><!-- Product Single - Share End -->
+                        </div>
+
+                        <div class="col_one_fifth col_last">
+                            <a href="/brand/{{ product.brand.slug }}" title="{{ product.brand.name }}" class="hidden-xs"><img class="image_fade" src="{{ product.brand.cover.image.url }}" alt="{{ product.brand.name }}"></a>
+                            <div class="divider divider-center"><i class="icon-circle-blank"></i></div>
+                            {% render_shop_sidebar %}
+                        </div>
+                        {% get_comment_count for product as comment_count %}
+                        <div class="col_full nobottommargin">
+                            <div class="tabs clearfix nobottommargin" id="tab-1">
+                                <ul class="tab-nav clearfix">
+                                    <li><a href="#tabs-1"><i class="icon-align-justify2"></i><span class="hidden-xs"> 产品描述</span></a></li>
+                                    <li><a href="#tabs-2"><i class="icon-info-sign"></i><span class="hidden-xs"> 产品信息</span></a></li>
+                                    <li><a href="#tabs-3"><i class="icon-comment-alt"></i><span class="hidden-xs"> 评价 ({{ comment_count }})</span></a></li>
+                                </ul>
+                                <div class="tab-container">
+                                    <div class="tab-content clearfix" id="tabs-1">
+                                        {{ product.prod_details |safe }}
+                                    </div>
+                                    <div class="tab-content clearfix" id="tabs-3">
+                                        {% if comment_count != 0 %}
+                                            <div id="comments" class="clearfix">
+                                                {% render_comment_list for product %}
+                                            </div>
+                                            <!-- #comments end -->
+                                        {% endif %}
+                                        <!-- Comment Form
+                                            ============================================= -->
+                                        <div id="respond" class="clearfix">
+                                            {% if user and user.is_active %}
+                                                {% render_comment_form for product %}
+                                            {% else %}
+                                                <h6>请<a href="/user/signin/" title="登录">登录</a>来提交您的评论</h6></p>
+                                            {% endif %}
+                                        </div>
+
+                                    </div>
+                                    <div class="tab-content clearfix" id="tabs-2">
+                                        <table class="table table-striped table-bordered">
+                                            <tbody>
+                                            {% for info in product.addition_info.all %}
+                                                <tr>
+                                                    <td>{{ info.name }}</td>
+                                                    <td>{{ info.value }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clear"></div><div class="line"></div>
+
+                <div class="col_full nobottommargin">
+                    {% render_related_products for product %}
+                    <script type="text/javascript">
+                        jQuery(document).ready(function($) {
+                            var ocProduct = $("#oc-product");
+                            ocProduct.owlCarousel({
+                                margin: 30,
+                                nav: true,
+                                navText : ['<i class="icon-angle-left"></i>','<i class="icon-angle-right"></i>'],
+                                autoplayHoverPause: true,
+                                dots: false,
+                                responsive:{
+                                    0:{ items:1 },
+                                    480:{ items:2 },
+                                    768:{ items:3 },
+                                    992:{ items:4 }
+                                }
+                            });
+                        });
+                    </script>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section><!-- #content end -->
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="/static/include/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+    <script type="text/javascript" src="/static/include/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+<script>
+$(function(){
+    $("a.product-like").click(function(e){
+        {% if user and user.is_authenticated %}
+            var love = $(this);
+            var id = love.attr("rel"); //对应id
+            $.ajax({
+                type:"POST",
+                url:"/like/",
+                data:{id:id, type:"product"},
+                cache:false, //不缓存此页面
+                success:function(data){
+                    var active = $("#like_flag");
+                    console.log(data);
+                    console.log(active.html());
+                    if(data.flag == "A") {
+                        active.html('<i class="icon-heart3 icon-2x" data-toggle="tooltip" data-placement="left" title="已喜欢"></i>');
+                    } else {
+                        active.html('<i class="icon-heart-empty icon-2x" data-toggle="tooltip" data-placement="left" title="喜欢"></i>');
+                    }
+                    $("#like_count").text(data.count);
+                }
+            });
+            return false;
+        {% else %}
+            alert("请您先登录！");
+        {% endif %}
+    });
+});
+</script>
+{% endblock %}
