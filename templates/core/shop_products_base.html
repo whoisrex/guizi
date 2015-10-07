@@ -32,10 +32,22 @@
 {% endblock %}
 
 {% block slider %}
-    <section id="page-title"  class="page-title-parallax page-title-dark" style="background-image: url('{{ item.cover.image.url }}');background-size:cover; padding: 120px 0;" data-stellar-background-ratio="0.3">
+    <section id="page-title"  class="page-title-parallax page-title-dark" style="background-image: url('{% if item %} {{ item.cover.image.url }} {% else %} /static/images/shop-bg.jpg {% endif %}');background-size:cover; padding: 120px 0;" data-stellar-background-ratio="0.3">
         <div class="container clearfix">
-                <h1>{{ item.name }}</h1>
-                <span>{{ item.short_content }}</span>
+                <h1>
+                    {% if item %}
+                        {{ item.name }}
+                    {% else %}
+                        所有商品
+                    {% endif %}
+                </h1>
+                <span>
+                    {% if item %}
+                        {{ item.short_content }}
+                    {% else %}
+                        所有商品
+                    {% endif %}
+                </span>
                 <ol class="breadcrumb">
                     <li><a href="/">主页</a></li>
                     <li class="active">商店</li>
@@ -50,17 +62,36 @@
         <section id="content">
             <div class="content-wrap">
                 <div class="container clearfix">
+{#                <div class="row">#}
+{#                    <div class="col-md-2">#}
+{#                        <form method="get" action="/shop">#}
+{#                            <div class="form-group">#}
+{#                                <select name="t" class="form-control input-lg rounded primary">#}
+{#                                    <option selected="selected" value="">选择产品类别…</option>#}
+{#                                    {% for type in types %}#}
+{#                                        <option value="{{ type.slug }}">{{ type.name }}</option>#}
+{#                                    {% endfor %}#}
+{#                                </select>#}
+{#                            </div>#}
+{#                        </form>#}
+{#                    </div>#}
+{#                </div>#}
                     <!-- Post Content
                     ============================================= -->
                     <div class="postcontent nobottommargin col_last">
                         <!-- Shop
                         ============================================= -->
                         <div id="shop" class="product-2 clearfix">
-                            {% for product in item.product_set.all %}
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <p>显示第{{ paginator.num_pages }}页 </p>
+                                </div>
+                            </div>
+                            {% for product in products %}
                                 <div class="product clearfix">
                                     <div class="product-image">
-                                        <a href="#"><img src="{{ product.product_gallery.first.image.url }}" alt="Checked Short Dress"></a>
-                                        <a href="#"><img src="{{ product.cover.image.url }}" alt="Checked Short Dress"></a>
+                                        <a href="{{ product.get_cover_url }}"><img src="{{ product.get_cover_url }}" alt="{{ product.name }}"></a>
+                                        <a href="{{ product.get_cover_url }}"><img src="{{ product.cover.image.url }}" alt="{{ product.name }}"></a>
                                         {% if product.is_discount %}
                                             <div class="sale-flash" style="background-color: #c9302c"><i class="icon-fire icon-2x"></i>{% widthratio product.new_price product.origin_price 10 %}折</div>
                                         {% endif %}
@@ -71,7 +102,11 @@
                                     </div>
                                     <div class="product-desc center">
                                         <div class="product-title"><h3><a href="/shop/{{ product.id }}">{{ product.name }}</a></h3></div>
-                                        <div class="product-price"><del>$24.99</del> <ins>{{ product.old_price }}</ins></div>
+                                        {% if product.is_discount %}
+                                            <div class="product-price">原价: <del>￥{{ product.origin_price }}</del> <br> 现价: <ins>￥{{ product.new_price }}</ins></div>
+                                        {% else %}
+                                            <div class="product-price"><ins>￥{{ product.origin_price }}</ins></div>
+                                        {% endif %}
                                         <div class="product-rating">
                                             <i class="icon-star3"></i>
                                             <i class="icon-star3"></i>
@@ -83,6 +118,15 @@
                                 </div>
                             {% endfor %}
                         </div><!-- #shop end -->
+                        <ul class="pagination topmargin nobottommargin">
+                            {% if paginator.has_previous %}
+                                <li class="active"><a href="/shop/list/?p={{ paginator.previous_page_number }}">上一页</a></li>
+                            {% endif %}
+                            <li><a href="#" class="active">第{{ paginator.num_pages }}页</a></li>
+                            {% if paginator.has_next %}
+                                <li ><a href="/shop/list/?p={{ paginator.next_page_number }}">下一页</a></li>
+                            {% endif %}
+                        </ul>
                     </div><!-- .postcontent end -->
 
                     <!-- Sidebar
@@ -90,161 +134,7 @@
                     <div class="sidebar nobottommargin">
                         <div class="sidebar-widgets-wrap">
                             {% render_shop_sidebar %}
-                            <div class="widget clearfix">
-                                <h4>Recent Items</h4>
-                                <div id="post-list-footer">
-                                    <div class="spost clearfix">
-                                        <div class="entry-image">
-                                            <a href="#"><img src="images/shop/small/1.jpg" alt="Image"></a>
-                                        </div>
-                                        <div class="entry-c">
-                                            <div class="entry-title">
-                                                <h4><a href="#">Blue Round-Neck Tshirt</a></h4>
-                                            </div>
-                                            <ul class="entry-meta">
-                                                <li class="color">$29.99</li>
-                                                <li><i class="icon-star3"></i> <i class="icon-star3"></i> <i class="icon-star3"></i> <i class="icon-star3"></i> <i class="icon-star-half-full"></i></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <div class="spost clearfix">
-                                        <div class="entry-image">
-                                            <a href="#"><img src="images/shop/small/6.jpg" alt="Image"></a>
-                                        </div>
-                                        <div class="entry-c">
-                                            <div class="entry-title">
-                                                <h4><a href="#">Checked Short Dress</a></h4>
-                                            </div>
-                                            <ul class="entry-meta">
-                                                <li class="color">$23.99</li>
-                                                <li><i class="icon-star3"></i> <i class="icon-star3"></i> <i class="icon-star3"></i> <i class="icon-star-half-full"></i> <i class="icon-star-empty"></i></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <div class="spost clearfix">
-                                        <div class="entry-image">
-                                            <a href="#"><img src="images/shop/small/7.jpg" alt="Image"></a>
-                                        </div>
-                                        <div class="entry-c">
-                                            <div class="entry-title">
-                                                <h4><a href="#">Light Blue Denim Dress</a></h4>
-                                            </div>
-                                            <ul class="entry-meta">
-                                                <li class="color">$19.99</li>
-                                                <li><i class="icon-star3"></i> <i class="icon-star3"></i> <i class="icon-star3"></i> <i class="icon-star-empty"></i> <i class="icon-star-empty"></i></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <div class="widget clearfix">
-
-                                <h4>Last Viewed Items</h4>
-                                <div class="widget-last-view">
-                                    <div class="spost clearfix">
-                                        <div class="entry-image">
-                                            <a href="#"><img src="images/shop/small/3.jpg" alt="Image"></a>
-                                        </div>
-                                        <div class="entry-c">
-                                            <div class="entry-title">
-                                                <h4><a href="#">Round-Neck Tshirt</a></h4>
-                                            </div>
-                                            <ul class="entry-meta">
-                                                <li class="color">$15</li>
-                                                <li><i class="icon-star3"></i> <i class="icon-star3"></i> <i class="icon-star3"></i> <i class="icon-star3"></i> <i class="icon-star3"></i></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <div class="spost clearfix">
-                                        <div class="entry-image">
-                                            <a href="#"><img src="images/shop/small/10.jpg" alt="Image"></a>
-                                        </div>
-                                        <div class="entry-c">
-                                            <div class="entry-title">
-                                                <h4><a href="#">Green Trousers</a></h4>
-                                            </div>
-                                            <ul class="entry-meta">
-                                                <li class="color">$19</li>
-                                                <li><i class="icon-star3"></i> <i class="icon-star3"></i> <i class="icon-star-empty"></i> <i class="icon-star-empty"></i> <i class="icon-star-empty"></i></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <div class="spost clearfix">
-                                        <div class="entry-image">
-                                            <a href="#"><img src="images/shop/small/11.jpg" alt="Image"></a>
-                                        </div>
-                                        <div class="entry-c">
-                                            <div class="entry-title">
-                                                <h4><a href="#">Silver Chrome Watch</a></h4>
-                                            </div>
-                                            <ul class="entry-meta">
-                                                <li class="color">$34.99</li>
-                                                <li><i class="icon-star3"></i> <i class="icon-star3"></i> <i class="icon-star3"></i> <i class="icon-star-half-full"></i> <i class="icon-star-empty"></i></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="widget clearfix">
-
-                                <h4>Popular Items</h4>
-                                <div id="Popular-item">
-                                    <div class="spost clearfix">
-                                        <div class="entry-image">
-                                            <a href="#"><img src="images/shop/small/8.jpg" alt="Image"></a>
-                                        </div>
-                                        <div class="entry-c">
-                                            <div class="entry-title">
-                                                <h4><a href="#">Pink Printed Dress</a></h4>
-                                            </div>
-                                            <ul class="entry-meta">
-                                                <li class="color">$21</li>
-                                                <li><i class="icon-star3"></i> <i class="icon-star3"></i> <i class="icon-star3"></i> <i class="icon-star3"></i> <i class="icon-star-half-full"></i></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <div class="spost clearfix">
-                                        <div class="entry-image">
-                                            <a href="#"><img src="images/shop/small/5.jpg" alt="Image"></a>
-                                        </div>
-                                        <div class="entry-c">
-                                            <div class="entry-title">
-                                                <h4><a href="#">Blue Round-Neck Tshirt</a></h4>
-                                            </div>
-                                            <ul class="entry-meta">
-                                                <li class="color">$19.99</li>
-                                                <li><i class="icon-star3"></i> <i class="icon-star3"></i> <i class="icon-star3"></i> <i class="icon-star-empty"></i> <i class="icon-star-empty"></i></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <div class="spost clearfix">
-                                        <div class="entry-image">
-                                            <a href="#"><img src="images/shop/small/12.jpg" alt="Image"></a>
-                                        </div>
-                                        <div class="entry-c">
-                                            <div class="entry-title">
-                                                <h4><a href="#">Men Aviator Sunglasses</a></h4>
-                                            </div>
-                                            <ul class="entry-meta">
-                                                <li class="color">$14.99</li>
-                                                <li><i class="icon-star3"></i> <i class="icon-star3"></i> <i class="icon-star-half-full"></i> <i class="icon-star-empty"></i> <i class="icon-star-empty"></i></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
+                            {% render_side_products %}
 
 {#                            <div class="widget clearfix">#}
 {#                                <iframe src="//www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2FEnvato&amp;width=240&amp;height=290&amp;colorscheme=light&amp;show_faces=true&amp;header=true&amp;stream=false&amp;show_border=true&amp;appId=499481203443583" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:240px; height:290px;" allowTransparency="true"></iframe>#}

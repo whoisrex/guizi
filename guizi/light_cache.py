@@ -1,4 +1,4 @@
-from core.models import Article, get_tagclouds, Activity, ProductType, ProductSpace, Brand
+from core.models import Article, get_tagclouds, Activity, ProductType, ProductSpace, Brand, Portfolio
 from django.core.cache import cache
 
 __author__ = 'functionality@sina.com'
@@ -61,12 +61,12 @@ def get_spaces():
         # cache.set("spaces", spaces)
     return spaces
 
-# def get_testimonials(default=None):
-#     testimonials = cache.get("testimonials")
-#     if not testimonials:
-#         testimonials = Client.objects.filter(publish=True)
-#         if len(testimonials) > 3:
-#             testimonials = testimonials[0:3]
-#         cache.set("testimonials", testimonials)
-#
-#     return testimonials
+def get_portfolio_carousels():
+    portfolios = cache.get("portfolio_carousels")
+    if not portfolios:
+        portfolios = Portfolio.get_latest(max_size=3)
+        # if len(testimonials) > 3:
+        #     testimonials = testimonials[0:3]
+        # cache.set("portfolio_carousels", testimonials)
+
+    return portfolios

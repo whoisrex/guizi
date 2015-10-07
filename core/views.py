@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 
-from core.models import SimpleImage, Article, Product, Brand, ProductType, Rate, Portfolio
+from core.models import SimpleImage, Article, Product, Brand, ProductType, Rate, Portfolio, ProductSpace
 from guizi import settings
 # Create your views here.
 
@@ -24,7 +24,10 @@ def home(request):
     if request.user:
         most_rated_products = Rate.get_most_rated_products(max_size=4)
         most_hot_products = Product.get_hot(max_size=4)
-        return render(request, "welcome.html", {"most_rated_products": most_rated_products, "most_hot_products": most_hot_products})
+        recent_portfolios = Portfolio.get_latest(max_size=4)
+        recent_articles = Article.get_recommended()
+        return render(request, "welcome.html", {"most_rated_products": most_rated_products,
+                        "recent_articles": recent_articles, "recent_portfolios": recent_portfolios, "most_hot_products": most_hot_products})
     else:
         return render(request, "home.html")
 
@@ -65,13 +68,34 @@ def shop(request):
     list = []
     brands = Brand.objects.all()
     product_types = ProductType.objects.all()
-    products = Product.get_hot(max_size=12)
-    return render(request, "core/shop.html", {"products":products, "brands": brands, "product_types":product_types,  "count": len(list)})
+    return render(request, "core/shop.html", {"brands": brands, "product_types": product_types,  "count": len(list)})
 
+def shop_list(request):
+    type_slug = request.GET.get('t')
+    brand_slug = request.GET.get('b')
+    space_slug = request.GET.get('s')
+    page = request.GET.get('p')
+    item = None
+    if type_slug:
+        item = get_object_or_404(ProductType, slug=type_slug)
+        paginator = Paginator(item.product_set.all(), ARTICLE_PAGE_SIZE)
+    elif brand_slug:
+        item = get_object_or_404(Brand, slug=brand_slug)
+        paginator = Paginator(item.product_set.all(), ARTICLE_PAGE_SIZE)
+    elif space_slug:
+        item = get_object_or_404(ProductSpace, slug=space_slug)
+        paginator = Paginator(item.applicable_spaces.all(), ARTICLE_PAGE_SIZE)
+    else:
+        paginator = Paginator(Product.objects.all(), ARTICLE_PAGE_SIZE)
 
-def brand(request, brand_slug):
-    brand = get_object_or_404(Brand, slug=brand_slug)
-    return render(request, "core/shop_products_base.html", {"item": brand, 'title': brand.name, 'next': True, 'url': request.get_full_path()})
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(paginator.num_pages)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
+
+    return render(request, "core/shop_products_base.html", {"item": item, 'page': page, "products": products, "paginator": paginator, 'next': True, 'url': request.get_full_path()})
 
 def type(request, type_slug):
     type = get_object_or_404(ProductType, slug=type_slug)
@@ -79,12 +103,23 @@ def type(request, type_slug):
 
 def product_info(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    is_like = product.is_liked_by_user(request.user)
+    if request.user.is_anonymous():
+        is_like = False
+    else:
+        is_like = product.is_liked_by_user(request.user)
     return render(request, "core/shop_single.html", {"product": product, 'is_like': is_like, 'next': True, 'url': request.get_full_path()})
 
 def portfolio(request):
     portfolios = Portfolio.objects.all()
     return render(request, "core/portfolio.html", {"portfolios": portfolios})
+
+def portfolio_info(request, portfolio_slug):
+    portfolio_single = get_object_or_404(Portfolio, slug=portfolio_slug)
+    if request.user.is_anonymous():
+        is_like = False
+    else:
+        is_like = portfolio_single.is_liked_by_user(request.user)
+    return render(request, "core/portfolio_single.html", {"portfolio": portfolio_single, 'is_like': is_like, 'next': True, 'url': request.get_full_path()})
 
 @login_required
 def like(request):

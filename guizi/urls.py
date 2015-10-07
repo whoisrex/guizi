@@ -28,16 +28,19 @@ urlpatterns = [
     url(r'^comments/', include('django_comments.urls')),
     url(r'^$', front.home, name="title"),
     url(r'^uploads/', front.uploads),
-    url(r'^article/$', front.blog),
     url(r'^shop/$', front.shop),
-    url(r'^portfolio/$', front.portfolio),
-    url(r'^type/(?P<type_slug>[^/]+)/$', front.type),
-    url(r'^brand/(?P<brand_slug>[^/]+)/$', front.brand),
+    url(r'^shop/list/$', front.shop_list),
+    # url(r'^shop/type/(?P<type_slug>[^/]+)/$', front.type),
+    # url(r'^shop/brand/(?P<brand_slug>[^/]+)/$', front.brand),
     url(r'^shop/(?P<product_id>\d+)$', front.product_info),
+    url(r'^portfolio/$', front.portfolio),
+    url(r'^portfolio/(?P<portfolio_slug>[^/]+)/$', front.portfolio_info),
+    url(r'^article/$', front.blog),
     url(r'^article/(?P<article_slug>[^/]+)/$', front.article_info),
     url(r'like/', front.like),
     url(r'about-us/', front.aboutus, name="find-us"),
     url(r'find-us/', front.contact),
+    url(r'^search/', include('haystack.urls')),
 ]
 
 # Add media and static files

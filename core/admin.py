@@ -75,8 +75,8 @@ class PortfolioForm(ModelForm):
 
 class PortfolioAdmin(admin.ModelAdmin):
     form = PortfolioForm
-    list_display = ("name", )
-    fields = ("name", "detail_content", "gallery", "tags")
+    list_display = ("name", "short_content")
+    fields = ("name", "short_content", "detail_content", "gallery", "tags")
 
     def save_model(self, request, obj, form, change):
         if request.user:

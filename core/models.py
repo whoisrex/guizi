@@ -215,6 +215,17 @@ class Portfolio(LikeModel, TracableMixin):
         self.slug = uuslug(self.name, instance=self)
         super(Portfolio, self).save(*args, **kwargs)
 
+    @classmethod
+    def get_latest(cls, max_size=6):
+        queryset = Portfolio.objects.all()
+        size = len(queryset)
+        if size < max_size:
+            hots = queryset[0:size]
+        else:
+            hots = queryset[0:max_size]
+        return hots
+
+
 
 class Brand(LikeModel, TracableMixin):
     name = models.CharField(u'品牌名称', max_length=30)
@@ -254,6 +265,7 @@ class ProductType(models.Model):
 
 class ProductSpace(models.Model):
     name = models.CharField(u'商品适用空间', max_length=30)
+    cover = models.ForeignKey(SimpleImage)
     slug = models.SlugField(max_length=100, db_index=True)
 
     def __unicode__(self):
@@ -311,11 +323,19 @@ class Product(LikeModel, TracableMixin):
     def sort_by_popularity(cls):
         pass
 
-    def get_related_products(self):
+    @classmethod
+    def get_recent_products(cls, max_size=6):
+        recent_products = Product.objects.all()
+        if recent_products and len(recent_products) > max_size:
+            return recent_products[0:max_size]
+        else:
+            return recent_products
+
+    def get_related_products(self, max_size=6):
         names = self.tags.names
         related_products = Product.objects.filter(tags__name__in=names).exclude(id=self.id).distinct()
-        if related_products and len(related_products) > 6:
-            return related_products[0:6]
+        if related_products and len(related_products) > max_size:
+            return related_products[0:max_size]
         else:
             return related_products
 

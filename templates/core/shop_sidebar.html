@@ -6,7 +6,7 @@
      <div class="togglec">
         <ul class="list-group">
         {% for type in product_types %}
-        <li class="list-group-item"><a href="/type/{{ type.slug }}">{{ type.name }}</a></li>
+        <li class="list-group-item"><a href="/shop/list/?t={{ type.slug }}">{{ type.name }}</a></li>
         {% endfor %}
         </ul>
     </div>
@@ -19,7 +19,7 @@
     <div class="togglec">
         <ul class="list-group">
             {% for space in spaces %}
-            <li class="list-group-item"><a href="/space/{{ space.slug }}">{{ space.name }}</a></li>
+            <li class="list-group-item"><a href="/shop/list/?s={{ space.slug }}">{{ space.name }}</a></li>
             {% endfor %}
         </ul>
     </div>
@@ -32,7 +32,7 @@
     <div class="togglec">
         <ul class="list-group">
             {% for brand in brands %}
-            <li class="list-group-item"><a href="/brand/{{ brand.slug }}">{{ brand.name }}</a></li>
+            <li class="list-group-item"><a href="/shop/list/?b={{ brand.slug }}">{{ brand.name }}</a></li>
             {% endfor %}
         </ul>
     </div>

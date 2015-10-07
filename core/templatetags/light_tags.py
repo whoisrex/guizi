@@ -1,13 +1,13 @@
 from django.template.loader import render_to_string
+from core.models import Product
+
 from guizi import light_cache as cache
-from core.models import Article
 
 __author__ = 'Administrator'
 
 from django import template
 
 register = template.Library()
-
 
 @register.tag
 def render_article_sidebar(parser, token):
@@ -74,23 +74,6 @@ class RelatedArticleTag(template.Node):
         return liststr
 
 
-# @register.tag
-# def render_testimonials_widget(parser, token):
-#     return TestimonialsWidget()
-#
-#
-# class TestimonialsWidget(template.Node):
-#     def render(self, context):
-#         testimonials = cache.get_testimonials()
-#         template_search_list = [
-#             "core/testimonials_widget.html",
-#         ]
-#         liststr = render_to_string(template_search_list, {
-#             "testimonials": testimonials
-#         }, context)
-#         return liststr
-
-
 @register.tag
 def render_article_slider(parser, token):
     return ArticleSlider()
@@ -145,9 +128,9 @@ def render_portfolio_carousel_widget(parser, token):
 
 class PortfolioCarouselWidget(template.Node):
     def render(self, context):
-        portfolios = cache.get_portfolios()
+        portfolios = cache.get_portfolio_carousels()
         template_search_list = [
-            "core/portfolio_carousel.html",
+            "core/portfolio_carousel_widget.html",
         ]
         liststr = render_to_string(template_search_list, {
             "portfolios": portfolios
@@ -192,7 +175,39 @@ class RelatedProductsTag(template.Node):
         product = context[self.product]
         related_products = product.get_related_products()
         template_search_list = [
-            "core/related_products.html",
+            "core/shop_related_products.html",
+        ]
+        liststr = render_to_string(template_search_list, {
+            "related_products": related_products
+        }, context)
+        return liststr
+
+@register.tag
+def render_side_products(parser, token):
+    return SideProductsTag()
+
+class SideProductsTag(template.Node):
+    def render(self, context):
+        recent_products = Product.get_recent_products(max_size=6)
+        popular_products = Product.get_hot(max_size=6)
+        template_search_list = [
+            "core/shop_side_products.html",
+        ]
+        liststr = render_to_string(template_search_list, {
+            "recent_products": recent_products,
+            "popular_products": popular_products,
+        }, context)
+        return liststr
+
+@register.tag
+def render_recommend_products(parser, token):
+    return RecommendProductsTag()
+
+class RecommendProductsTag(template.Node):
+    def render(self, context):
+        related_products = Product.get_hot(max_size=12)
+        template_search_list = [
+            "core/shop_related_products.html",
         ]
         liststr = render_to_string(template_search_list, {
             "related_products": related_products
