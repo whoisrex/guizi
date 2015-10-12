@@ -37,6 +37,7 @@ urlpatterns = [
     url(r'^portfolio/(?P<portfolio_slug>[^/]+)/$', front.portfolio_info),
     url(r'^article/$', front.blog),
     url(r'^article/(?P<article_slug>[^/]+)/$', front.article_info),
+    url(r'^activity/(?P<activity_slug>[^/]+)/$', front.activity_infor),
     url(r'like/', front.like),
     url(r'about-us/', front.aboutus, name="find-us"),
     url(r'find-us/', front.contact),

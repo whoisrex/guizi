@@ -1,7 +1,7 @@
-{% extends "base_general_transparentbar.html" %}
+{% extends "core/article_base.html" %}
 {% load light_tags %}
 {% block title %}
-    归梓|专注艺术教育
+    归梓|家居设计领导者
 {% endblock %}
 
 {% block styles %}
@@ -36,31 +36,13 @@
 {% endblock %}
 
 {% block slider %}
-    {% render_article_slider %}
+    {% render_article_slider for type %}
 {% endblock %}
 
 {% block center-content %}
-      <!-- Page Title
-        ============================================= -->
-        <section id="page-title">
-
-            <div class="container clearfix">
-                <span>装修文章</span>
-                <ol class="breadcrumb">
-                    <li><a href="/">主页</a></li>
-                    <li class="/four-season">装修文章</li>
-                </ol>
-            </div>
-
-        </section><!-- #page-title end -->
-           <!-- Content
-        ============================================= -->
         <section id="content">
-
             <div class="content-wrap">
-
                 <div class="container clearfix">
-
                     <!-- Post Content
                     ============================================= -->
                     <div class="postcontent nobottommargin col_last clearfix">
@@ -104,84 +86,16 @@
                     ============================================= -->
                     <div class="sidebar nobottommargin clearfix">
                         <div class="sidebar-widgets-wrap">
-
                             {% render_article_sidebar %}
                             <div class="widget clearfix">
-
-                                <h4>Portfolio Carousel</h4>
-                                <div id="oc-portfolio-sidebar" class="owl-carousel portfolio-5">
-
-                                    <div class="oc-item">
-                                        <div class="iportfolio">
-                                            <div class="portfolio-image">
-                                                <a href="#">
-                                                    <img src="images/portfolio/4/3.jpg" alt="Mac Sunglasses">
-                                                </a>
-                                                <div class="portfolio-overlay">
-                                                    <a href="http://vimeo.com/89396394" class="center-icon" data-lightbox="iframe"><i class="icon-line-play"></i></a>
-                                                </div>
-                                            </div>
-                                            <div class="portfolio-desc center nobottompadding">
-                                                <h3><a href="portfolio-single-video.html">Mac Sunglasses</a></h3>
-                                                <span><a href="#">Graphics</a>, <a href="#">UI Elements</a></span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="oc-item">
-                                        <div class="iportfolio">
-                                            <div class="portfolio-image">
-                                                <a href="portfolio-single.html">
-                                                    <img src="images/portfolio/4/1.jpg" alt="Open Imagination">
-                                                </a>
-                                                <div class="portfolio-overlay">
-                                                    <a href="images/blog/full/1.jpg" class="center-icon" data-lightbox="image"><i class="icon-line-plus"></i></a>
-                                                </div>
-                                            </div>
-                                            <div class="portfolio-desc center nobottompadding">
-                                                <h3><a href="portfolio-single.html">Open Imagination</a></h3>
-                                                <span><a href="#">Media</a>, <a href="#">Icons</a></span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <script type="text/javascript">
-
-                                    jQuery(document).ready(function($) {
-
-                                        var ocClients = $("#oc-portfolio-sidebar");
-
-                                        ocClients.owlCarousel({
-                                            items: 1,
-                                            margin: 10,
-                                            loop: true,
-                                            nav: false,
-                                            autoplay: true,
-                                            dots: true,
-                                            autoplayHoverPause: true
-                                        });
-
-                                    });
-
-                                </script>
-
+                            {% render_portfolio_carousel_widget %}
                             </div>
-
                             {% render_tagcloud_widget %}
-
                         </div>
-
                     </div><!-- .sidebar end -->
-
                 </div>
-
             </div>
-
         </section><!-- #content end -->
-
-
 {% endblock %}
 
 {% block scripts %}

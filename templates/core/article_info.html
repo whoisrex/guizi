@@ -1,4 +1,4 @@
-{% extends "base_general_transparentbar.html" %}
+{% extends "core/article_base.html" %}
 
 {% block title %}
     {{ article.name }}
@@ -40,12 +40,12 @@
                             <!-- Entry Meta
                             ============================================= -->
                             <ul class="entry-meta clearfix">
-                                <li id="moment"><i class="icon-calendar3"></i></li>
+                                <li id="moment"><i class="icon-calendar3"></i>{{ article.created_at |date:"d"}}</li>
                                 <li><a href="#author">
                                     <img src="{{ article.created_by.profile.get_mugshot_url }}"
                                          class="img-circle" height='20' width='20'/> {{ article.created_by }}</a></li>
-                                <li><a href="#comments"><i class="icon-comments"></i> {{ comment_count }} 评论</a>
-                                </li>
+{#                                <li><a href="#comments"><i class="icon-comments"></i> {{ comment_count }} 评论</a>#}
+{#                                </li>#}
                             </ul>
                             <!-- .entry-meta end -->
 
@@ -70,33 +70,46 @@
                                 </div>
                                 <!-- .tagcloud end -->
 
-                                <div class="clear"></div>
-
                                 <!-- Post Single - Share
                                 ============================================= -->
                                 <div class="si-share noborder clearfix">
-                                    <span>分享到社交媒体:</span>
-
                                     <!-- JiaThis Button BEGIN -->
-                                    <div class="jiathis_style_32x32">
-                                        <a class="jiathis_button_qzone"></a>
-                                        <a class="jiathis_button_tsina"></a>
-                                        <a class="jiathis_button_tqq"></a>
-                                        <a class="jiathis_button_weixin"></a>
-                                        <a class="jiathis_button_renren"></a>
-                                        <a href="http://www.jiathis.com/share?uid=2057332"
-                                           class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-                                        <a class="jiathis_counter_style"></a>
+                                    <div onmouseover="setShare('{{ article.name }}', ' {{ url }}',
+                                            '{{ article.short_content }}', '{{ article.cover.image.url }}');">
+                                        <div class="jiathis_style_24x24">
+                                            <span class="jiathis_separator">分享到社交媒体:</span>
+                                            <a class="jiathis_button_tsina"></a>
+                                            <a class="jiathis_button_qzone"></a>
+                                            <a class="jiathis_button_weixin"></a>
+                                            <a class="jiathis_button_douban"></a>
+                                            <a href="http://www.jiathis.com/share?uid=2057332" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	                                        <a class="jiathis_counter_style"></a>
+                                            <!-- JiaThis Button BEGIN -->
+                                        </div>
                                     </div>
-                                    <script type="text/javascript">
-                                        var jiathis_config = {data_track_clickback: 'true'};
-                                    </script>
-                                    <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2057332"
-                                            charset="utf-8"></script>
                                     <!-- JiaThis Button END -->
+                                    <script type="text/javascript">
+                                      function setShare(title, url, summary, pic) {
+                                          jiathis_config.title = '我在归梓网发现一篇好文章：' + title;
+                                          jiathis_config.url = url;
+                                          jiathis_config.summary = summary;
+                                          jiathis_config.pic = pic
+                                      }
+                                      var jiathis_config = {}
+                                    </script>
                                 </div>
                                 <!-- Post Single - Share End -->
 
+                                <!-- Comments
+                                ============================================= -->
+                                <div id="comments" class="clearfix">
+                                    <h3 id="comments-title"><span>评论</span></h3>
+                                    <div id="uyan_frame"></div>
+{#                                    <script type="text/javascript" id="UYScript" src="http://v1.uyan.cc/js/iframe.js?UYUserId=2057332" async=""></script>#}
+                                    <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2057332"></script>
+                                </div>
+                                <!-- #comments end -->
+                                <div class="clear"></div>
                             </div>
                         </div>
                         <!-- .entry end -->
@@ -132,39 +145,31 @@
 
                         <!-- Post Author Info
                         ============================================= -->
-                        <div id="author" class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Posted by <span><a href="#">{{ article.created_by }}</a></span>
-                                </h3>
-                            </div>
-                            <div class="panel-body">
-                                <div class="author-image">
-                                    <img src="{{ article.created_by.profile.get_mugshot_url }}" alt=""
-                                         class="img-circle">
-                                </div>
-                                {{ article.created_by.profile.about_me }}
-                            </div>
-                        </div>
+{#                        <div id="author" class="panel panel-default">#}
+{#                            <div class="panel-heading">#}
+{#                                <h3 class="panel-title">Posted by <span><a href="#">{{ article.created_by }}</a></span>#}
+{#                                </h3>#}
+{#                            </div>#}
+{#                            <div class="panel-body">#}
+{#                                <div class="author-image">#}
+{#                                    <img src="{{ article.created_by.profile.get_mugshot_url }}" alt=""#}
+{#                                         class="img-circle">#}
+{#                                </div>#}
+{#                                {{ article.created_by.profile.about_me }}#}
+{#                            </div>#}
+{#                        </div>#}
                         <!-- Post Single - Author End -->
 
-                        <div class="line"></div>
+{#                        <div class="line"></div>#}
 
                         {% render_related_article for article %}
 
-                        <!-- Comments
-                        ============================================= -->
-                        <div id="comments" class="clearfix">
-                            <h3 id="comments-title"><span>评论</span></h3>
-                            {% render_comment_list for article %}
-                        </div>
-                        <!-- #comments end -->
-
                         <div class="clear"></div>
-                        <!-- Comment Form
-                            ============================================= -->
-                        <div id="respond" class="clearfix">
-                            {% render_comment_form for article %}
-                        </div>
+{#                        <!-- Comment Form#}
+{#                            ============================================= -->#}
+{#                        <div id="respond" class="clearfix">#}
+{#                            {% render_comment_form for article %}#}
+{#                        </div>#}
                     </div>
 
                 </div>
@@ -176,6 +181,17 @@
                             {% render_portfolio_carousel_widget %}
                         </div>
                         {% render_tagcloud_widget %}
+
+                        <div class="widget clearfix">
+                            <!-- UJian Button BEGIN -->
+                            <div class="ujian-hook"></div>
+                                <script type="text/javascript">
+                                    var ujian_config = {num:6,fillet:0,lkrc:0,picSize:120,picHeight:72,textHeight:15};
+                                </script>
+                            <script type="text/javascript" src="http://v1.ujian.cc/code/ujian.js?uid=2057332"></script>
+                            <a href="http://www.ujian.cc" style="border:0;"><img src="http://img.ujian.cc/pixel.png" alt="友荐云推荐" style="border:0;padding:0;margin:0;" /></a>
+                            <!-- UJian Button END -->
+                        </div>
                     </div>
 
                 </div>

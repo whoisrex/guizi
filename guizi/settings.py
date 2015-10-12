@@ -22,6 +22,7 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(settings_dir))
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'public/media/')
 MEDIA_URL = '/media/'
 
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'public/static/')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static/'),
@@ -60,8 +61,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'filer',
-    'mptt',
+    # 'filer',
+    # 'mptt',
     'taggit',
     'haystack',
     # 'tastypie',

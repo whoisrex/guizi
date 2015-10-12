@@ -1,55 +1,67 @@
-{% extends "userena/base_userena.html" %}
+{% extends "base.html" %}
+
 {% load i18n static %}
 {% load url from future %}
+
 <!-- Start Home Section-->
-{% block content %}
-    <section id="home" class="demo-1">
-        <!--     Codrops top bar-->
-        <div id="slider" class="sl-slider-wrapper">
-            <div class="sl-slider">
-                <!-- start slide-->
-                <div data-orientation="horizontal" data-slice1-rotation="-25" data-slice2-rotation="-25"
-                     data-slice1-scale="2" data-slice2-scale="2" class="sl-slide">
-                    <div style="background-image: url(/static/images/slider/2.jpg);" class="sl-slide-inner">
-                        <div class="slide-container">
-                            <div class="slide-content text-center"><img src="/static/images/logo-black.png"
-                                                                        alt="LOGO" class="deco">
-
-                                <div class="row">
+{% block center-content %}
+    <section id="content">
+        <div class="content-wrap nopadding">
+            <div class="section nopadding nomargin"
+                 style="width: 100%; height: 100%; position: absolute; left: 0; top: 0; background: url('/static/images/signup-bg.jpg') center center no-repeat; background-size: cover;"></div>
+            <div class="section nobg full-screen nopadding nomargin">
+                <div class="container vertical-middle divcenter clearfix">
+                    <div class="row center bottommargin-sm">
+                        <a href="/"><img src="/static/images/logo.png" alt="回到主页" style="max-width: 50px;" title="回到主页"></a>
+                    </div>
+                    <div class="panel panel-default divcenter noradius noborder dark"
+                         style="max-width: 400px">
+                        <div class="panel-body" style="padding: 20px;">
+                            <form action="/user/signup/" method="POST">
+                                {{ form.non_field_errors }}
+                                    {% for field in form %}
+                                        {% if field.errors %}
+                                         <div class="style-msg errormsg">
+                                            <div class="sb-msg"><i class="icon-remove"></i> {{ field.errors.as_text  }}</div>
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% csrf_token %}
+                                {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+                                <div class="form-group">
+                                    <input class="required form-control input" id="id_username" maxlength="30"
+                                           name="username" type="text" placeholder="请输入用户名" required>
+                                </div>
+                                <div class="form-group">
+                                    <input class="required form-control input" id="id_email" maxlength="75"
+                                           name="email" type="text" placeholder="请输入邮箱" required/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" id="id_password1" name="password1" placeholder="请输入密码"
+                                           class="required form-control input" required>
+                                </div>
+                                <div class="form-group">
+                                    <input id="id_password2" name="password2" type="password" placeholder="请再次输入密码"
+                                           class="required form-control input" required>
+                                </div>
+                                <div class="row form-inline form-group">
                                     <div class="col-md-4 col-md-offset-4">
-                                        <h4 class="main-title">注册&nbsp;</h4>
-
-                                        <form action="/user/signup/" method="POST">
-                                            {% csrf_token %}
-                                            <div class="form-group">
-                                                <input class="required form-control input-lg" id="id_username" maxlength="30" name="username" type="text" placeholder="请输入用户名">
-                                            </div>
-                                            <div class="form-group">
-                                                <input class="required form-control input-lg" id="id_email" maxlength="75" name="email" type="text" placeholder="请输入邮箱"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="password" id="id_password1"  name="password1" placeholder="请输入密码"
-                                                       class="required form-control input-lg">
-                                            </div>
-                                            <div class="form-group">
-                                                <input  id="id_password2" name="password2" type="password" placeholder="请再次输入密码"
-                                                       class="required form-control input-lg">
-                                            </div>
-
-                                            <div class="form-inline form-group">
-                                                <button type="submit" class="btn btn-primary">注册新用户</button>
-                                            </div>
-                                        </form>
+                                    <button type="submit" class="button button-lg button-rounded si-colored"><i class="icon-line2-user-follow"></i>
+                                                &nbsp;注册</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="/user/signin" class="button button-rounded button button-red"><i class="icon-signin"></i><span>&nbsp;登录</span></a>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
+                    <div class="row center dark">
+                        <small>COPYRIGHT &copy; 归梓艺术设计.</small>
+                    </div>
+
                 </div>
-                <!-- end slide-->
             </div>
-            <!--       /sl-slider-->
         </div>
-        <!--     /slider-wrapper-->
-    </section>
+    </section><!-- #content end -->
 {% endblock %}

@@ -1,6 +1,30 @@
 {% extends "base_general.html" %}
 
 {% block header %}
+    <!-- Top Bar
+    ============================================= -->
+    <div id="top-bar">
+        <div class="container clearfix">
+            <div class="col_half nobottommargin">
+                <div class="top-links">
+                    <ul>
+                        <li><a href="/"><i class="icon-line2-home icon-lg"></i>主页</a></li>
+                        <li><a href="faqs.html">网站地图</a></li>
+                        <li><a href="/about-us"><i class="icon-star3 icon-lg"></i>加入收藏</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col_half fright col_last nobottommargin" style="margin-top: 10px">
+                <div class="jiathis_style_24x24">
+                    <a class="jiathis_follow_tsina" rel="http://weibo.com/jiathis"></a>
+                    <a class="jiathis_follow_tqq" rel="http://t.qq.com/jiathis"></a>
+                    <a class="jiathis_follow_weixin"
+                       rel="http://www.jiathis.com/resource/default/images/weixin_code.jpg"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <header id="header" class="transparent-header semi-transparent full-header">
         <div id="header-wrap">
             <div class="container clearfix">
@@ -8,89 +32,81 @@
                 <!-- Logo
                 ============================================= -->
                 <div id="logo">
-                    <a href="/" class="standard-logo" data-dark-logo="/static/images/logo.png"><img src="/static/images/logo.png" alt="Canvas Logo"></a>
-                    <a href="/" class="retina-logo" data-dark-logo="/static/images/logo.png"><img src="/static/images/logo.png" alt="Canvas Logo"></a>
-                </div><!-- #logo end -->
+                    <a href="/" class="standard-logo" data-dark-logo="/static/images/logo.png"><img
+                            src="/static/images/logo-h.png" alt="归梓"></a>
+                    <a href="/" class="retina-logo" data-dark-logo="/static/images/logo.png"><img
+                            src="/static/images/logo.png" alt="归梓"></a>
+                </div>
+                <!-- #logo end -->
                 <!-- Primary Navigation
                 ============================================= -->
                 <nav id="primary-menu">
-                    <ul>
-                        <li><a href="/"><div>主页</div></a>
-                        </li>
-                        <li><a href="/shop"><div>商店</div></a>
-                            <ul>
-                                <li><a href="/shop/list/"><div><i class="icon-line-layout"></i>所有商品</div></a></li>
-                            </ul>
-                        </li>
-                        <li class="mega-menu"><a href="/portfolio"><div>项目图库</div></a>
-                        </li>
-                        <li class="mega-menu"><a href="/article/?t=blog"><div>装修文章</div></a>
-                        </li>
-                        <li class="mega-menu"><a href="#"><div>装修小知识</div></a>
-                        </li>
-                        <li class="current"><a href="/about-us"><div>关于我们</div></a>
-                        </li>
-                        <li class="mega-menu"><a href="/find-us"><div>找到我们</div></a>
-                        </li>
-                    </ul>
+                    {% block nav %}
+                    {% endblock %}
                     <!-- Top Cart
                     ============================================= -->
                     <div id="top-cart">
                         {% if user and user.is_authenticated %}
-                                <a href="#" id="top-cart-trigger"><i class="icon-line2-user icon-lg"></i><span>5</span></a>
-                                <div class="top-cart-content">
-                                      <div class="top-cart-items">
-                                        <div class="top-cart-item clearfix">
-                                            <div class="top-cart-item-desc">
-                                                  <a href="/user/{{ user.nickname }}"><i class="icon-line-cog icon-lg"></i>&nbsp;我的设定</a>
-                                            </div>
+                            <a href="#" id="top-cart-trigger"><i class="icon-line2-user icon-lg"></i><span>5</span></a>
+                            <div class="top-cart-content">
+                                <div class="top-cart-items">
+                                    <div class="top-cart-item clearfix">
+                                        <div class="top-cart-item-desc">
+                                            <a href="/user/{{ user.username }}"><i class="icon-line-cog icon-lg"></i>&nbsp;我的设定</a>
                                         </div>
-                                          <div class="top-cart-item clearfix">
-                                            <div class="top-cart-item-desc">
-                                                  <a href="/my/home"><i class="icon-line2-home icon-lg"></i>&nbsp;我的主页</a>
-                                            </div>
+                                    </div>
+                                    <div class="top-cart-item clearfix">
+                                        <div class="top-cart-item-desc">
+                                            <a href="/my/home"><i class="icon-line2-home icon-lg"></i>&nbsp;我的主页</a>
                                         </div>
-                                          <div class="top-cart-item clearfix">
-                                            <div class="top-cart-item-desc">
-                                                  <a href="/user/signout"><i class="icon-signout icon-lg"></i>&nbsp;登出</a>
-                                            </div>
+                                    </div>
+                                    <div class="top-cart-item clearfix">
+                                        <div class="top-cart-item-desc">
+                                            <a href="/user/signout"><i class="icon-signout icon-lg"></i>&nbsp;登出</a>
                                         </div>
                                     </div>
                                 </div>
-                            {% else %}
-                                <a href="#" id="top-cart-trigger"><i class="icon-line2-user icon-lg"></i></a>
-                                <div class="top-cart-content">
-                                    <div class="top-cart-title">
-                                        <h4>用户登陆</h4>
-                                    </div>
-                                    <div class="top-cart-items">
-                                        <form id="top-login" role="form" action="/user/signin/" method="POST">
-                                            {% csrf_token %}
-                                            <div class="input-group" id="top-login-username">
-                                                <input type="text" id="id_identification" name="identification" class="form-control input-lg" placeholder="用户名或邮箱" required="">
-                                            </div>
-                                            <div class="input-group" id="top-login-password">
-                                                <input type="password" id="id_password"  name="password" class="form-control input-lg" placeholder="密码" required="">
-                                            </div>
-                                            <label class="checkbox">
-                                              <input type="checkbox" id="id_remember_me"  name="remember_me"> 记住我
-                                            </label>
-                                            <button class="btn btn-danger btn-block" type="submit">登陆</button>
-                                        </form>
-                                    </div>
+                            </div>
+                        {% else %}
+                            <a href="#" id="top-cart-trigger"><i class="icon-line2-user icon-lg"></i></a>
+                            <div class="top-cart-content">
+                                <div class="top-cart-title">
+                                    <h4>用户登陆</h4>
                                 </div>
-                            {% endif %}
-                    </div><!-- #top-cart end -->
+                                <div class="top-cart-items">
+                                    <form id="top-login" role="form" action="/user/signin/" method="POST">
+                                        {% csrf_token %}
+                                        <div class="input-group" id="top-login-username">
+                                            <input type="text" id="id_identification" name="identification"
+                                                   class="form-control input-lg" placeholder="用户名或邮箱" required="">
+                                        </div>
+                                        <div class="input-group" id="top-login-password">
+                                            <input type="password" id="id_password" name="password"
+                                                   class="form-control input-lg" placeholder="密码" required="">
+                                        </div>
+                                        <label class="checkbox">
+                                            <input type="checkbox" id="id_remember_me" name="remember_me"> 记住我
+                                        </label>
+                                        <button class="btn btn-danger btn-block" type="submit">登陆</button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <!-- #top-cart end -->
                     <!-- Top Search
                     ============================================= -->
                     <div id="top-search">
                         <a href="#" id="top-search-trigger"><i class="icon-search3"></i><i class="icon-line-cross"></i></a>
+
                         <form action="/search" method="get">
                             <input type="text" name="q" class="form-control" value="" placeholder="关键词">
                         </form>
-                    </div><!-- #top-search end -->
+                    </div>
+                    <!-- #top-search end -->
 
-                </nav><!-- #primary-menu end -->
+                </nav>
+                <!-- #primary-menu end -->
             </div>
         </div>
     </header>

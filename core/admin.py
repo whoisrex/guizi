@@ -20,8 +20,7 @@ from core.models import Article, Brand, ProductSpace, ProductType, ProductParame
 class BrandForm(ModelForm):
     class Meta:
         widgets = {
-            "short_intro": AutosizedTextarea(attrs={"rows": 3}),
-            'quote': SimditorWidget(editor_options={'startupFocus': True})
+            'short_content': AutosizedTextarea(attrs={"rows": 4}),
         }
 
 
@@ -38,10 +37,18 @@ class BrandAdmin(admin.ModelAdmin):
             super(BrandAdmin, self).save_model(request, obj, form, change)
 
 
+class SimpleImageForm(ModelForm):
+    class Meta:
+        widgets = {
+            "name": AutosizedTextarea(attrs={"rows": 3}),
+            'short_content': AutosizedTextarea(attrs={"rows": 5}),
+        }
+
 class SimpleImageAdmin(admin.ModelAdmin):
-    fields = ('title', 'caption', 'image', 'image_tag',)
+    form = SimpleImageForm
+    fields = ('name', 'image', 'short_content', 'image_tag',)
     readonly_fields = ('image_tag',)
-    list_display = ('title', 'caption', 'image_tag')
+    list_display = ('name', 'short_content', 'image_tag')
 
     def save_model(self, request, obj, form, change):
         if request.user:
@@ -52,7 +59,7 @@ class SimpleImageAdmin(admin.ModelAdmin):
 class ArticleForm(ModelForm):
     class Meta:
         widgets = {
-            'short_content': AutosizedTextarea(attrs={"rows": 3}),
+            'short_content': AutosizedTextarea(attrs={"rows": 4}),
             "detail_content": SimditorWidget(editor_options={'startupFocus': True}),
         }
 
@@ -70,6 +77,7 @@ class ArticleAdmin(admin.ModelAdmin):
 class PortfolioForm(ModelForm):
     class Meta:
         widgets = {
+            'short_content': AutosizedTextarea(attrs={"rows": 4}),
             "detail_content": SimditorWidget(editor_options={'startupFocus': True}),
         }
 
@@ -85,7 +93,7 @@ class PortfolioAdmin(admin.ModelAdmin):
 
 
 class ProductSpaceAdmin(admin.ModelAdmin):
-    fields = ('name',)
+    fields = ('name', 'cover')
     list_display = ('name',)
 
 class ProductTypeAdmin(admin.ModelAdmin):
@@ -96,7 +104,7 @@ class ProductTypeAdmin(admin.ModelAdmin):
 class ProductForm(ModelForm):
     class Meta:
         widgets = {
-            'description': AutosizedTextarea(attrs={"rows": 3}),
+            'description': AutosizedTextarea(attrs={"rows": 4}),
             "prod_details": SimditorWidget(editor_options={'startupFocus': True}),
         }
 

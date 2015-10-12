@@ -3,17 +3,6 @@
 
     Replace your Fonts as necessary
 -----------------------------------------------------------------*/
-
-@font-face {
-    font-family: 'SiYuan-ExtraLight';
-    src: url('source-hans/SiYuan-ExtraLight.eot');
-    src: url('source-hans/SiYuan-ExtraLight.eot?#iefix') format('embedded-opentype'),
-         url('source-hans/SiYuan-ExtraLight.woff') format('woff'),
-         url('source-hans/SiYuan-ExtraLight.ttf') format('truetype'),
-         url('source-hans/SiYuan-ExtraLight.svg#SiYuan-ExtraLight') format('svg');
-    font-style: normal;
-}
-
 body,
 small,
 #primary-menu ul li a,
@@ -49,7 +38,7 @@ h6,
 .counter,
 label,
 .wedding-head .first-name,
-.wedding-head .last-name { font-family: 'Source Sans Pro', sans-serif; }
+.wedding-head .last-name { font-family: 'Roboto', sans-serif; }
 
 
 /* ----------------------------------------------------------------

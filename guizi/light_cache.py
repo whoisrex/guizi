@@ -4,9 +4,16 @@ from django.core.cache import cache
 __author__ = 'functionality@sina.com'
 
 def get_pop_articles():
-    articles = cache.get("pop_articles")
+    articles = cache.get("pop_articles_news")
     if not articles:
-        articles = Article.get_recommended()
+        articles = Article.get_recommended(type=1)
+        # cache.set("pop_articles", articles)
+    return articles
+
+def get_pop_tips():
+    articles = cache.get("pop_articles_tips")
+    if not articles:
+        articles = Article.get_recommended(type=2)
         # cache.set("pop_articles", articles)
     return articles
 

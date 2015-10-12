@@ -97,9 +97,8 @@ class LikeModel(models.Model):
 
 
 class SimpleImage(TracableMixin):
-    title = models.CharField(max_length=30, blank=True)
-    caption = models.CharField(max_length=30, blank=True)
-
+    name = models.CharField(max_length=30, blank=True)
+    short_content = models.CharField(max_length=300, blank=True)
     image = models.ImageField(upload_to=settings.UPLOAD_TO)
     thumbnail = models.ImageField(upload_to=settings.THUMBNAIL_ROOT, blank=True)
 
@@ -143,9 +142,9 @@ class SimpleImage(TracableMixin):
         verbose_name_plural = u'图片'
 
 ARTICLE_TYPE = (
-    (1, u'艺考新闻'),
-    (2, u'艺考文章'),
-    (3, u'爱乐时光'),
+    (1, u'家居资讯'),
+    (2, u'装修知识'),
+    (3, u'归梓时光'),
 )
 
 
@@ -161,8 +160,8 @@ class Article(LikeModel, TracableMixin):
     tags = TaggableManager()
 
     @classmethod
-    def get_recommended(cls):
-        recommended = Article.objects.filter(pub_to_front=True).order_by("-created_at")
+    def get_recommended(cls, type=1):
+        recommended = Article.objects.filter(Q(pub_to_front=True), Q(type=type)).order_by("-created_at")
         return recommended
 
     def get_related_articles(self):
@@ -366,7 +365,6 @@ class Rate(models.Model):
 
 THE_ACTIVITY_TYPE = (
     (1, u'促销'),
-    (2, u'促销'),
     (10, u'其他'),
 )
 

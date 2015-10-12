@@ -1,4 +1,5 @@
-{% extends "base_general_transparentbar.html" %}
+{% extends "core/portfolio_base.html" %}
+
 {% load light_tags %}
 {% load comments %}
 {% block title %}
@@ -9,6 +10,7 @@
     <section id="page-title" class="page-title-center">
         <div class="container clearfix">
             <h1>{{ portfolio.name }}</h1>
+
             <div id="portfolio-navigation">
                 <a href="#"><i class="icon-angle-left"></i></a>
                 <a href="/portfolio"><i class="icon-line-grid"></i></a>
@@ -22,7 +24,6 @@
     <section id="content">
         <div class="content-wrap">
             <div class="container clearfix">
-
                 <!-- Portfolio Single Gallery
                 ============================================= -->
                 <div class="col_full portfolio-single-image">
@@ -30,26 +31,29 @@
                         <div class="flexslider">
                             <div class="slider-wrap">
                                 {% for image in portfolio.gallery.all %}
-                                    <div class="slide"><a href="{{ image.image.url }}">
-                                        <img src="{{ image.image.url }}" alt=""></a>
+                                    <div class="slide">
+                                        <a href="{{ image.image.url }}">
+                                            <img src="{{ image.image.url }}" alt="">
+
+                                            <div class="slider-caption-top-left">
+                                                {{ image.short_content }}
+                                            </div>
+                                        </a>
                                     </div>
                                 {% endfor %}
                             </div>
+
                         </div>
+
                     </div>
                 </div>
                 <!-- .portfolio-single-image end -->
-                <div class="col_one_third nobottommargin">
+                <div class="col_one_fourth nobottommargin">
                     <!-- Portfolio Single - Meta
                     ============================================= -->
                     <div class="panel panel-default events-meta">
                         <div class="panel-body">
-                            <ul class="portfolio-meta nobottommargin">
-                                <li><span><i class="icon-user"></i>Created by:</span> John Doe</li>
-                                <li><span><i class="icon-calendar3"></i>Completed on:</span> 17th March 2014</li>
-                                <li><span><i class="icon-lightbulb"></i>Skills:</span> HTML5 / PHP / CSS3</li>
-                                <li><span><i class="icon-link"></i>Client:</span> <a href="#">Google</a></li>
-                            </ul>
+                            {{ portfolio.short_content }}
                         </div>
                     </div>
                     <!-- Portfolio Single - Meta End -->
@@ -57,60 +61,49 @@
                     <!-- Portfolio Single - Share
                     ============================================= -->
                     <div class="si-share noborder clearfix">
-                        <span>分享到社交媒体:</span>
-
-                        <!-- JiaThis Button BEGIN -->
-                        <div class="jiathis_style_32x32">
-                            <a class="jiathis_button_qzone"></a>
-                            <a class="jiathis_button_tsina"></a>
-                            <a class="jiathis_button_tqq"></a>
-                            <a class="jiathis_button_weixin"></a>
-                            <a href="http://www.jiathis.com/share?uid=2057332"
-                               class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-                            <a class="jiathis_counter_style"></a>
+                        <div onmouseover="setShare('{{ portfolio.name }}', ' {{ url }}',
+                                '{{ portfolio.short_content }}', '{{ portfolio.gallery.first.image.ur }}');">
+                            <div class="jiathis_style_24x24">
+                                <span class="jiathis_separator">分享到社交媒体:</span>
+                                <a class="jiathis_button_tsina"></a>
+                                <a class="jiathis_button_qzone"></a>
+                                <a class="jiathis_button_weixin"></a>
+                                <a class="jiathis_button_douban"></a>
+                                <a href="http://www.jiathis.com/share?uid=2057332"
+                                   class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+                                <a class="jiathis_counter_style"></a>
+                            </div>
                         </div>
                         <script type="text/javascript">
-                            var jiathis_config = {data_track_clickback: 'true'};
+                            function setShare(title, url, summary, pic) {
+                                jiathis_config.title = '我在归梓网发现一个好设计：' + title;
+                                jiathis_config.url = url;
+                                jiathis_config.summary = summary;
+                                jiathis_config.pic = pic
+                            }
+                            var jiathis_config = {}
                         </script>
-                        <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2057332"
-                                charset="utf-8"></script>
-                        <!-- JiaThis Button END -->
                     </div>
                     <!-- Portfolio Single - Share End -->
-
                 </div>
 
                 <!-- Portfolio Single Content
                 ============================================= -->
-                <div class="col_two_third portfolio-single-content col_last nobottommargin">
-
+                <div class="col_three_fourth portfolio-single-content col_last nobottommargin">
                     <!-- Portfolio Single - Description
                     ============================================= -->
                     <div class="fancy-title title-dotted-border">
-                        <h2>Project Info:</h2>
+                        <h2>{{ portfolio.name }}</h2>
                     </div>
-
-                    <div class="col_half nobottommargin">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, labore deserunt ex
-                            cupiditate est blanditiis dignissimos nesciunt doloremque laboriosam ullam necessitatibus
-                            voluptatum tempora itaque quia porro voluptates quo excepturi veritatis!</p>
-                    </div>
-
-                    <div class="col_half col_last nobottommargin">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, sed.</p>
-
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo, soluta explicabo sunt aliquam
-                            officiis autem.</p>
+                    <div class="nobottommargin">
+                        <p>{{ portfolio.detail_content | safe }}</p>
                     </div>
                     <!-- Portfolio Single - Description End -->
-
                 </div>
                 <!-- .portfolio-single-content end -->
 
                 <div class="clear"></div>
-
                 <div class="divider divider-center"><i class="icon-circle"></i></div>
-
                 <!-- Related Portfolio Items
                 ============================================= -->
                 <h4>Related Projects:</h4>
@@ -332,13 +325,9 @@
 
                 </div>
                 <!-- .portfolio-carousel end -->
-
                 <script type="text/javascript">
-
                     jQuery(document).ready(function ($) {
-
                         var relatedPortfolio = $("#related-portfolio");
-
                         relatedPortfolio.owlCarousel({
                             margin: 30,
                             nav: false,
@@ -352,14 +341,13 @@
                                 992: {items: 4}
                             }
                         });
-
                     });
-
                 </script>
-
             </div>
-
         </div>
-
     </section>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2057332" charset="utf-8"></script>
 {% endblock %}

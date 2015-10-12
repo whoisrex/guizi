@@ -76,11 +76,26 @@ class RelatedArticleTag(template.Node):
 
 @register.tag
 def render_article_slider(parser, token):
-    return ArticleSlider()
+     # {% render_related_article for [1, 2] %}
+    tokens = token.split_contents()
+    if tokens[1] != 'for':
+        raise template.TemplateSyntaxError("Second argument in %r tag must be 'for'" % tokens[0])
+    if len(tokens) == 3:
+        type = tokens[2]
+        return ArticleSlider(type)
+    else:
+        raise template.TemplateSyntaxError("Third argument in %r tag must be 'for'" % tokens[2])
 
 class ArticleSlider(template.Node):
+    def __init__(self, type):
+        self.type = type
+
     def render(self, context):
-        pop_articles = cache.get_pop_articles()
+        value = context[self.type]
+        if value == '2':
+            pop_articles = cache.get_pop_tips()
+        else:
+            pop_articles = cache.get_pop_articles()
         template_search_list = [
             "core/article_slider.html",
         ]

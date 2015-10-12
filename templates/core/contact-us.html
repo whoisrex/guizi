@@ -4,6 +4,48 @@
     归梓|联系我们
 {% endblock %}
 
+{% block nav %}
+    <ul>
+        <li><a href="/shop">
+            <div>商店</div>
+            <span>Lets Start</span>
+        </a>
+            <ul>
+                <li><a href="/shop/list/">
+                    <div><i class="icon-line-layout"></i>所有商品</div>
+                    <span>&nbsp;</span>
+                </a></li>
+            </ul>
+        </li>
+        <li><a href="/portfolio">
+            <div>项目图库</div>
+            <span></span>
+        </a>
+        </li>
+        <li><a href="/article/?t=1">
+            <div>家居资讯</div>
+            <span></span>
+        </a>
+        </li>
+        <li><a href="/article/?t=2">
+            <div>装修知识</div>
+            <span></span>
+        </a>
+        </li>
+        <li><a href="/about-us">
+            <div>关于归梓</div>
+            <span></span>
+        </a>
+        </li>
+        <li class="current"><a href="/find-us">
+            <div>找到我们</div>
+            <span></span>
+        </a>
+        </li>
+    </ul>
+{% endblock %}
+
+
 {% block slider %}
     <section id="page-title" class="page-title-parallax page-title-dark"
              style="padding: 250px 0; background-image: url('/static/images/about-us.jpg'); background-size: cover; background-position: center center;"

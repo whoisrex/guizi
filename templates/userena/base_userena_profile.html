@@ -1,51 +1,82 @@
-{% extends 'base_general.html' %}
+{% extends 'base_general_transparentbar.html' %}
 {% load i18n %}
 {% load url from future %}
 
+{% block nav %}
+    <ul>
+        <li><a href="/shop">
+            <div>商店</div>
+            <span>Lets Start</span>
+        </a>
+            <ul>
+                <li><a href="/shop/list/">
+                    <div><i class="icon-line-layout"></i>所有商品</div>
+                    <span>&nbsp;</span>
+                </a></li>
+            </ul>
+        </li>
+        <li><a href="/portfolio">
+            <div>项目图库</div>
+            <span></span>
+        </a>
+        </li>
+        <li><a href="/article/?t=1">
+            <div>家居资讯</div>
+            <span></span>
+        </a>
+        </li>
+        <li><a href="/article/?t=2">
+            <div>装修知识</div>
+            <span></span>
+        </a>
+        </li>
+        <li><a href="/about-us">
+            <div>关于归梓</div>
+            <span></span>
+        </a>
+        </li>
+        <li><a href="/find-us">
+            <div>找到我们</div>
+            <span></span>
+        </a>
+        </li>
+    </ul>
+{% endblock %}
+
 <!-- Start header Section-->
 {% block slider %}
-    <section style="background-image: url('/static/images/pic05.jpg');" class="header-section fading-title parallax">
-        <div class="section-shade sep-top-5x sep-bottom-3x">
-            <div class="container">
-                <div class="section-title upper light">
-                    <h2 class="small-space">简约,设计</h2>
-                    <p class="lead">卓然天成</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<section id="page-title">
+    <div class="container clearfix">
+        <h1>个人设置</h1>
+        <ol class="breadcrumb">
+            <li><a href="/">主页</a></li>
+            <li class="active"><a href="/user/{{ user.username }}">个人设置</a></li>
+        </ol>
+    </div>
+</section>
 {% endblock %}
 <!-- End header Section-->
 
 {% block center-content %}
-
-    <section>
-        <div class="container">
+<section id="content">
+    <div class="content-wrap">
+        <div class="container clearfix">
             <div class="row">
                 <div class="col-md-9 col-md-push-3 sep-top-2x">
                     <div class="sep-bottom-md">
                        {% block profile_content %}
-                        {% endblock %}
+                       {% endblock %}
                     </div>
                 </div>
                 <div class="col-md-3 col-md-pull-9 sep-top-2x">
                     <h5 class="widget-title upper sep-bottom-xs">用户帐号设置</h5>
-                    <ul class="widget widget-cat sep-bottom-sm">
-                        <li class="selected cat-item"><a
-                                href="{% url 'userena_profile_detail' user.username %}">{% trans "View profile" %}</a>
-                        </li>
-                        <li class="cat-item"><a
-                                href="{% url 'userena_profile_edit' user.username %}">{% trans "Edit details" %}</a>
-                        </li>
-                        <li class="cat-item">
-                            <a href="{% url 'userena_password_change' user.username %}">{% trans "Change password" %}</a>
-                        </li>
-                        <li class="cat-item"><a
-                                href="{% url 'userena_email_change' user.username %}">{% trans "Change email" %}</a>
-                        </li>
+                    <ul class="nav nav-pills nav-stacked">
+                        {% block right_nav %}
+                        {% endblock %}
                     </ul>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 {% endblock %}

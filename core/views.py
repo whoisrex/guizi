@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 
-from core.models import SimpleImage, Article, Product, Brand, ProductType, Rate, Portfolio, ProductSpace
+from core.models import SimpleImage, Article, Product, Brand, ProductType, Rate, Portfolio, ProductSpace, Activity
 from guizi import settings
 # Create your views here.
 
@@ -26,8 +26,11 @@ def home(request):
         most_hot_products = Product.get_hot(max_size=4)
         recent_portfolios = Portfolio.get_latest(max_size=4)
         recent_articles = Article.get_recommended()
+        activities = Activity.get_banner_activity()
+        types = ProductType.objects.all()
+
         return render(request, "welcome.html", {"most_rated_products": most_rated_products,
-                        "recent_articles": recent_articles, "recent_portfolios": recent_portfolios, "most_hot_products": most_hot_products})
+                        "recent_articles": recent_articles, "types": types, 'activities': activities,  "recent_portfolios": recent_portfolios, "most_hot_products": most_hot_products})
     else:
         return render(request, "home.html")
 
@@ -50,18 +53,33 @@ ARTICLE_PAGE_SIZE = 10
 def blog(request):
     type = request.GET.get('t')
     page = request.GET.get('p')
-    paginator = Paginator(Article.objects.filter(type=2), ARTICLE_PAGE_SIZE)
+    paginator = Paginator(Article.objects.filter(type=type), ARTICLE_PAGE_SIZE)
     try:
         blog_list = paginator.page(page)
     except PageNotAnInteger:
         blog_list = paginator.page(paginator.num_pages)
     except EmptyPage:
         blog_list = paginator.page(paginator.num_pages)
-    return render(request, "core/article.html", {"page": blog_list,  "type": "blog"})
+    return render(request, "core/article.html", {"page": blog_list,  "type": type})
 
 def article_info(request, article_slug):
     article = get_object_or_404(Article, slug=article_slug)
     return render(request, "core/article_info.html", {"article": article, 'next': True, 'url': request.get_full_path()})
+
+
+def activity_infor(request, activity_slug):
+    item = get_object_or_404(Activity, slug=activity_slug)
+    paginator = Paginator(item.promot_products.all(), ARTICLE_PAGE_SIZE)
+    page = request.GET.get('p')
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(paginator.num_pages)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
+
+    return render(request, "core/shop_products_base.html", {"item": item, 'page': page, "products": products, "paginator": paginator, 'next': True, 'url': request.get_full_path()})
+
 
 
 def shop(request):

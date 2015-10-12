@@ -4,6 +4,47 @@
     归梓|关于我们
 {% endblock %}
 
+{% block nav %}
+    <ul>
+        <li><a href="/shop">
+            <div>商店</div>
+            <span>Lets Start</span>
+        </a>
+            <ul>
+                <li><a href="/shop/list/">
+                    <div><i class="icon-line-layout"></i>所有商品</div>
+                    <span>&nbsp;</span>
+                </a></li>
+            </ul>
+        </li>
+        <li><a href="/portfolio">
+            <div>项目图库</div>
+            <span></span>
+        </a>
+        </li>
+        <li><a href="/article/?t=1">
+            <div>家居资讯</div>
+            <span></span>
+        </a>
+        </li>
+        <li><a href="/article/?t=2">
+            <div>装修知识</div>
+            <span></span>
+        </a>
+        </li>
+        <li class="current"><a href="/about-us">
+            <div>关于归梓</div>
+            <span></span>
+        </a>
+        </li>
+        <li><a href="/find-us">
+            <div>找到我们</div>
+            <span></span>
+        </a>
+        </li>
+    </ul>
+{% endblock %}
+
 {% block slider %}
     <section id="page-title" class="page-title-parallax page-title-dark"
              style="padding: 250px 0; background-image: url('/static/images/about-us.jpg'); background-size: cover; background-position: center center;"
@@ -45,44 +86,14 @@
                     <p>希望这些有价可循的产品终有一天成为你家无价可依的温暖和感动。这也正是“回家”所倡导的与别的生活馆不一样的特点。我们不敢奢望这些产品在若干年的使用中固若金汤，但是我们却希望我们所销售的产品足以承载家庭生活中那些大大小小的琐事，以及琐事过后的故事。也许，有的产品在还未进入你家之前，就已经有了让你细细品味的故事。</p>
                 </div>
             </div>
-            <div class="section nomargin">
-                <div class="container clearfix">
-                    <div class="col_one_fourth nobottommargin center" data-animate="bounceIn">
-                        <i class="i-plain i-xlarge divcenter icon-line2-directions"></i>
-                        <div class="counter counter-lined"><span data-from="100" data-to="846" data-refresh-interval="50" data-speed="2000"></span>K+
-                        </div>
-                        <h5>Lines of Codes</h5>
-                    </div>
-                    <div class="col_one_fourth nobottommargin center" data-animate="bounceIn" data-delay="200">
-                        <i class="i-plain i-xlarge divcenter nobottommargin icon-line2-graph"></i>
-                        <div class="counter counter-lined"><span data-from="3000" data-to="15360" data-refresh-interval="100" data-speed="2500"></span>+
-                        </div>
-                        <h5>KBs of HTML Files</h5>
-                    </div>
-                    <div class="col_one_fourth nobottommargin center" data-animate="bounceIn" data-delay="400">
-                        <i class="i-plain i-xlarge divcenter nobottommargin icon-line2-layers"></i>
-
-                        <div class="counter counter-lined"><span data-from="10" data-to="408" data-refresh-interval="25"
-                                                                 data-speed="3500"></span>*
-                        </div>
-                        <h5>No. of Templates</h5>
-                    </div>
-                    <div class="col_one_fourth nobottommargin center col_last" data-animate="bounceIn" data-delay="600">
-                        <i class="i-plain i-xlarge divcenter nobottommargin icon-line2-clock"></i>
-                        <div class="counter counter-lined"><span data-from="60" data-to="1200"
-                                                                 data-refresh-interval="30" data-speed="2700"></span>+
-                        </div>
-                        <h5>Hours of Coding</h5>
-                    </div>
-                </div>
-            </div>
             <div class="row common-height clearfix">
                 <div class="col-sm-6 col-padding"
                      style="background: url('/static/images/intro-1.jpg') center center no-repeat; background-size: cover;"></div>
-                <div class="col-sm-6 col-padding">
+                <div class="col-sm-6 col-padding" style="background-color: #F5F5F5;">
                     <div class="row clearfix">
                         <div class="col-md-12">
-                            <p>“回家”作为眉山第一个独立自主的原创生活馆品牌，旨在希望通过有品质的产品，有温度的品牌态度。来传递我们对于家的理解，究竟什么是家？一千个人看哈姆雷特就有一千个哈姆雷特。每个人的理解是不一样的，但至少在这样一个浮躁的社会环境下，每个人梦想成为盖茨比这样的人的年代里。“回家”反而希望能够慢下来，安静下来。不去追逐，也不去顺从。我们自有我们自己的态度，在城市的一个角落静静的散发味道。创始人本身的生活经历让她在很多时候很多场合去不断反思究竟想要的家是什么样的？家的外在呈现应该是什么样的？奢华简朴这样的词在面对这样的问题时会显得心有余而力不足。“回家”这个原创生活馆品牌更是希望在这个时代里，和目标客户人群80后90后们一起坐下来探讨回家的意义，以及家这个字本身。一个家是一栋房子和几个人还有若干小物件组成的一个微型聚合体，这栋房子这些小物件都是有有价买入的，但是因为那几个人这栋房子这些小物件开始变得无价可依，因为时间和陪伴让这栋房子这些小物件变成了家。</p>
+                            <p>“回家”作为眉山第一个独立自主的原创生活馆品牌，旨在希望通过有品质的产品，有温度的品牌态度。来传递我们对于家的理解</p>
+                            <p>“回家”这个原创生活馆品牌更是希望在这个时代里，和目标客户人群80后90后们一起坐下来探讨回家的意义，以及家这个字本身。一个家是一栋房子和几个人还有若干小物件组成的一个微型聚合体，这栋房子这些小物件都是有有价买入的，但是因为那几个人这栋房子这些小物件开始变得无价可依，因为时间和陪伴让这栋房子这些小物件变成了家。</p>
                         </div>
                     </div>
                 </div>
